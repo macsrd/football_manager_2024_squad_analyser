@@ -119,6 +119,69 @@ ifb_d_columns_05 = [2, 5, 9, 16, 19, 21, 22, 24, 25, 34, 37, 38, 40, 48]
 
 # Midfielders
 
+bwm_d_columns_1 = [2, 18, 22, 26, 41, 46]
+bwm_d_columns_05 = [16, 17, 33, 37, 49, 40, 48]
+
+bwm_s_columns_1 = [2, 18, 22, 26, 41, 46]
+bwm_s_columns_05 = [16, 17, 21, 33, 37, 40, 48]
+
+am_d_columns_1 = [5, 16, 17, 18, 24, 39] # RD(O) to confirm
+am_d_columns_05 = [19, 33, 41]
+
+dm_d_columns_1 = [16, 18 ,24, 39, 41]
+dm_d_columns_05 = [2, 5, 17, 19, 21, 22, 33, 46]
+
+dm_s_columns_1 = [16, 18, 24, 39, 41]
+dm_s_columns_05 = [2, 5, 17, 19, 21, 22, 25, 33, 46]
+
+hb_d_columns_1 = [5, 16, 17, 18, 19, 24, 39, 41]
+hb_d_columns_05 = [2, 21, 22, 25, 33, 34, 40, 46]
+
+dlp_d_columns_1 = [5, 19, 21 ,23, 25, 38, 41]
+dlp_d_columns_05 = [18, 24, 29, 39]
+
+dlp_s_columns_1 = [5, 19, 21, 23, 25, 38, 41]
+dlp_s_columns_05 = [11, 24, 29, 39]
+
+sv_s_columns_1 = [11, 17, 18, 21, 22, 37, 39, 46]
+sv_s_columns_05 = [5, 16, 19, 24, 25, 26, 29, 33, 36, 43]
+
+sv_a_columns_1 = [11, 18, 21, 22, 24, 36, 37, 39, 43, 46]
+sv_a_columns_05 = [5, 16, 17, 19, 25, 26, 29, 33]
+
+rp_s_columns_1 = [5, 11, 19, 21, 22, 23, 24, 25, 26, 38, 46]
+rp_s_columns_05 = [9, 16, 29, 36, 37, 39, 48]
+
+reg_s_columns_1 = [5, 11, 19, 21, 23, 25, 38, 41]
+reg_s_columns_05 = [9, 24, 29, 36]
+
+cm_d_columns_1 = [5, 16, 18, 39, 41]
+cm_d_columns_05 = [2, 17, 19, 21, 22, 24, 25, 38, 46]
+
+cm_s_columns_1 = [5, 18, 21, 25, 41]
+cm_s_columns_05 = [11, 16, 19, 22, 23, 24, 38, 46]
+
+cm_a_columns_1 = [5, 11, 21, 25]
+cm_a_columns_05 = [18, 19, 22, 23, 24, 26, 36, 38, 41, 46]
+
+car_s_columns_1 = [5, 18, 21, 25, 39, 41, 46]
+car_s_columns_05 = [11, 16, 19, 22, 23, 24, 38]
+
+b2b_s_columns_1 = [11, 18, 21, 22, 41, 46]
+b2b_s_columns_05 = [2, 5, 9, 19, 24, 25, 26, 29, 33, 36, 37, 39]
+
+mez_s_columns_1 = [5, 11, 21, 22, 38]
+mez_s_columns_05 = [9, 18, 19, 23, 24, 25, 29, 36, 46]
+
+mez_a_columns_1 = [5, 9, 11, 21, 22, 23, 38]
+mez_a_columns_05 = [3, 19, 24, 25, 29, 36, 43, 46]
+
+ap_s_columns_1 = [5, 11, 19, 21, 23, 25, 38, 41]
+ap_s_columns_05 = [3, 9, 24, 48]
+
+ap_a_columns_1 = [5, 11, 19, 21, 23, 25, 38, 41]
+ap_a_columns_05 = [3, 9, 24, 26, 48]
+
 
 
 # Define the maximum possible values for each column (assuming 100 for simplicity, adjust as needed)
@@ -221,6 +284,70 @@ max_values_ifb_d_1 = 20 * len(ifb_d_columns_1)
 max_values_ifb_d_05 = 20 * 0.5 * len(ifb_d_columns_05)
 
 # Midfielders
+
+max_values_bwm_d_1 = 20 * len(ifb_d_columns_1)
+max_values_bwm_d_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_bwm_s_1 = 20 * len(ifb_d_columns_1)
+max_values_bwm_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_am_d_1 = 20 * len(ifb_d_columns_1)
+max_values_am_d_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_dm_d_1 = 20 * len(ifb_d_columns_1)
+max_values_dm_d_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_dm_s_1 = 20 * len(ifb_d_columns_1)
+max_values_dm_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_hb_d_1 = 20 * len(ifb_d_columns_1)
+max_values_hb_d_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_dlp_d_1 = 20 * len(ifb_d_columns_1)
+max_values_dlp_d_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_dlp_s_1 = 20 * len(ifb_d_columns_1)
+max_values_dlp_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_sv_s_1 = 20 * len(ifb_d_columns_1)
+max_values_sv_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_sv_a_1 = 20 * len(ifb_d_columns_1)
+max_values_sv_a_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_rp_s_1 = 20 * len(ifb_d_columns_1)
+max_values_rp_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_reg_s_1 = 20 * len(ifb_d_columns_1)
+max_values_reg_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_cm_d_1 = 20 * len(ifb_d_columns_1)
+max_values_cm_d_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_cm_s_1 = 20 * len(ifb_d_columns_1)
+max_values_cm_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_cm_a_1 = 20 * len(ifb_d_columns_1)
+max_values_cm_a_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_car_s_1 = 20 * len(ifb_d_columns_1)
+max_values_car_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_b2b_s_1 = 20 * len(ifb_d_columns_1)
+max_values_b2b_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_mez_s_1 = 20 * len(ifb_d_columns_1)
+max_values_mez_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_mez_a_1 = 20 * len(ifb_d_columns_1)
+max_values_mez_a_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_ap_s_1 = 20 * len(ifb_d_columns_1)
+max_values_ap_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
+max_values_ap_a_1 = 20 * len(ifb_d_columns_1)
+max_values_ap_a_05 = 20 * 0.5 * len(ifb_d_columns_05)
+
 
 # Create a new DataFrame with 'Name 1' and 'Name 2'
 #new_df = df[['Name 1', 'Name 2']].copy()
