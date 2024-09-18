@@ -512,5 +512,110 @@ ifb_d_1_sum = df.iloc[:, ifb_d_columns_1].sum(axis=1)  # Sum of columns with mul
 ifb_d_05_sum = df.iloc[:, ifb_d_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
 new_df['IFB (D)'] = (ifb_d_1_sum + ifb_d_05_sum) / (max_values_ifb_d_1 + max_values_ifb_d_05) * 100  # Calculate as percentage
 
+# Calculate "BWM (D)" value
+bwm_d_1_sum = df.iloc[:, bwm_d_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+bwm_d_05_sum = df.iloc[:, bwm_d_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['BWM (D)'] = (bwm_d_1_sum + bwm_d_05_sum) / (max_values_bwm_d_1 + max_values_bwm_d_05) * 100  # Calculate as percentage
+
+# Calculate "BWM (S)" value
+bwm_s_1_sum = df.iloc[:, bwm_s_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+bwm_s_05_sum = df.iloc[:, bwm_s_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['BWM (S)'] = (bwm_s_1_sum + bwm_s_05_sum) / (max_values_bwm_s_1 + max_values_bwm_s_05) * 100  # Calculate as percentage
+
+# Calculate "AM (D)" value
+am_d_1_sum = df.iloc[:, am_d_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+am_d_05_sum = df.iloc[:, am_d_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['AM (D)'] = (am_d_1_sum + am_d_05_sum) / (max_values_am_d_1 + max_values_am_d_05) * 100  # Calculate as percentage
+
+# Calculate "DM (D)" value
+dm_d_1_sum = df.iloc[:, dm_d_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+dm_d_05_sum = df.iloc[:, dm_d_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['DM (D)'] = (dm_d_1_sum + dm_d_05_sum) / (max_values_dm_d_1 + max_values_dm_d_05) * 100  # Calculate as percentage
+
+# Calculate "DM (S)" value
+dm_s_1_sum = df.iloc[:, dm_s_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+dm_s_05_sum = df.iloc[:, dm_s_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['DM (S)'] = (dm_s_1_sum + dm_s_05_sum) / (max_values_dm_s_1 + max_values_dm_s_05) * 100  # Calculate as percentage
+
+# Calculate "HB (D)" value
+hb_d_1_sum = df.iloc[:, hb_d_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+hb_d_05_sum = df.iloc[:, hb_d_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['HB (D)'] = (hb_d_1_sum + hb_d_05_sum) / (max_values_hb_d_1 + max_values_hb_d_05) * 100  # Calculate as percentage
+
+# Calculate "DLP (D)" value
+dlp_d_1_sum = df.iloc[:, dlp_d_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+dlp_d_05_sum = df.iloc[:, dlp_d_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['DLP (D)'] = (dlp_d_1_sum + dlp_d_05_sum) / (max_values_dlp_d_1 + max_values_dlp_d_05) * 100  # Calculate as percentage
+
+# Calculate "DLP (S)" value
+dlp_s_1_sum = df.iloc[:, dlp_s_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+dlp_s_05_sum = df.iloc[:, dlp_s_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['DLP (S)'] = (dlp_s_1_sum + dlp_s_05_sum) / (max_values_dlp_s_1 + max_values_dlp_s_05) * 100  # Calculate as percentage
+
+# Calculate "SV (S)" value
+sv_s_1_sum = df.iloc[:, sv_s_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+sv_s_05_sum = df.iloc[:, sv_s_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['SV (S)'] = (sv_s_1_sum + sv_s_05_sum) / (max_values_sv_s_1 + max_values_sv_s_05) * 100  # Calculate as percentage
+
+# Calculate "SV (A)" value
+sv_a_1_sum = df.iloc[:, sv_a_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+sv_a_05_sum = df.iloc[:, sv_a_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['SV (A)'] = (sv_a_1_sum + sv_a_05_sum) / (max_values_sv_a_1 + max_values_sv_a_05) * 100  # Calculate as percentage
+
+# Calculate "RP (S)" value
+rp_s_1_sum = df.iloc[:, rp_s_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+rp_s_05_sum = df.iloc[:, rp_s_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['RP (S)'] = (rp_s_1_sum + rp_s_05_sum) / (max_values_rp_s_1 + max_values_rp_s_05) * 100  # Calculate as percentage
+
+# Calculate "REG (S)" value
+reg_s_1_sum = df.iloc[:, reg_s_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+reg_s_05_sum = df.iloc[:, reg_s_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['REG (S)'] = (reg_s_1_sum + reg_s_05_sum) / (max_values_reg_s_1 + max_values_reg_s_05) * 100  # Calculate as percentage
+
+# Calculate "CM (D)" value
+cm_d_1_sum = df.iloc[:, cm_d_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+cm_d_05_sum = df.iloc[:, cm_d_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['CM (D)'] = (cm_d_1_sum + cm_d_05_sum) / (max_values_cm_d_1 + max_values_cm_d_05) * 100  # Calculate as percentage
+
+# Calculate "CM (S)" value
+cm_s_1_sum = df.iloc[:, cm_s_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+cm_s_05_sum = df.iloc[:, cm_s_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['CM (S)'] = (cm_s_1_sum + cm_s_05_sum) / (max_values_cm_s_1 + max_values_cm_s_05) * 100  # Calculate as percentage
+
+# Calculate "CM (A)" value
+cm_a_1_sum = df.iloc[:, cm_a_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+cm_a_05_sum = df.iloc[:, cm_a_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['CM (A)'] = (cm_a_1_sum + cm_a_05_sum) / (max_values_cm_a_1 + max_values_cm_a_05) * 100  # Calculate as percentage
+
+# Calculate "CAR (S)" value
+car_s_1_sum = df.iloc[:, car_s_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+car_s_05_sum = df.iloc[:, car_s_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['CAR (S)'] = (car_s_1_sum + car_s_05_sum) / (max_values_car_s_1 + max_values_car_s_05) * 100  # Calculate as percentage
+
+# Calculate "B2B (S)" value
+b2b_s_1_sum = df.iloc[:, b2b_s_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+b2b_s_05_sum = df.iloc[:, b2b_s_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['B2B (S)'] = (b2b_s_1_sum + b2b_s_05_sum) / (max_values_b2b_s_1 + max_values_b2b_s_05) * 100  # Calculate as percentage
+
+# Calculate "MEZ (S)" value
+mez_s_1_sum = df.iloc[:, mez_s_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+mez_s_05_sum = df.iloc[:, mez_s_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['MEZ (S)'] = (mez_s_1_sum + mez_s_05_sum) / (max_values_mez_s_1 + max_values_mez_s_05) * 100  # Calculate as percentage
+
+# Calculate "MEZ (A)" value
+mez_a_1_sum = df.iloc[:, mez_a_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+mez_a_05_sum = df.iloc[:, mez_a_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['MEZ (A)'] = (mez_a_1_sum + mez_a_05_sum) / (max_values_mez_a_1 + max_values_mez_a_05) * 100  # Calculate as percentage
+
+# Calculate "AP (S)" value
+ap_s_1_sum = df.iloc[:, ap_s_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+ap_s_05_sum = df.iloc[:, ap_s_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['AP (S)'] = (ap_s_1_sum + ap_s_05_sum) / (max_values_ap_s_1 + max_values_ap_s_05) * 100  # Calculate as percentage
+
+# Calculate "AP (A)" value
+ap_a_1_sum = df.iloc[:, ap_a_columns_1].sum(axis=1)  # Sum of columns with multiplier 1
+ap_a_05_sum = df.iloc[:, ap_a_columns_05].sum(axis=1) * 0.5  # Sum of columns with multiplier 0.5
+new_df['AP (A)'] = (ap_a_1_sum + ap_a_05_sum) / (max_values_ap_a_1 + max_values_ap_a_05) * 100  # Calculate as percentage
+
 # Display the new dataframe
 print(new_df)
