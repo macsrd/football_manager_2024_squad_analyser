@@ -120,7 +120,7 @@ ifb_d_columns_05 = [2, 5, 9, 16, 19, 21, 22, 24, 25, 34, 37, 38, 40, 48]
 # Midfielders
 
 bwm_d_columns_1 = [2, 18, 22, 26, 41, 46]
-bwm_d_columns_05 = [16, 17, 33, 37, 49, 40, 48]
+bwm_d_columns_05 = [16, 17, 33, 37, 39, 40, 48]
 
 bwm_s_columns_1 = [2, 18, 22, 26, 41, 46]
 bwm_s_columns_05 = [16, 17, 21, 33, 37, 40, 48]
@@ -182,6 +182,108 @@ ap_s_columns_05 = [3, 9, 24, 48]
 ap_a_columns_1 = [5, 11, 19, 21, 23, 25, 38, 41]
 ap_a_columns_05 = [3, 9, 24, 26, 48]
 
+am_s_columns_1 = [3, 5, 11, 21, 24, 25, 36, 38]
+am_s_columns_05  = [9, 19, 23, 48]
+
+am_a_columns_1 = [3, 5, 9, 11, 21, 24, 25, 36, 38]
+am_a_columns_05  = [19, 23, 43, 48]
+
+ss_a_columns_1 = [9, 11, 19, 24, 25, 26, 43]
+ss_a_columns_05  = [5, 16, 21, 22, 29, 37, 38, 46, 48]
+
+tre_a_columns_1 = [3, 5, 9, 11, 19, 21, 23, 25, 26, 38]
+tre_a_columns_05  = [24, 29, 43, 48]
+
+eng_s_columns_1 = [5, 19, 21, 23, 25, 38]
+eng_s_columns_05  = [3, 9, 11, 24, 41, 48]
+
+# Wide Midfielders
+
+iw_s_columns_1 = []
+iw_s_columns_05  = []
+
+iw_a_columns_1 = []
+iw_a_columns_05  = []
+
+wp_s_columns_1 = []
+wp_s_columns_05  = []
+
+wp_a_columns_1 = []
+wp_a_columns_05  = []
+
+win_s_columns_1 = []
+win_s_columns_05  = []
+
+win_a_columns_1 = []
+win_a_columns_05  = []
+
+dwin_d_columns_1 = []
+dwin_d_columns_05  = []
+
+dwin_s_columns_1 = []
+dwin_s_columns_05  = []
+
+wm_d_columns_1 = []
+wm_d_columns_05  = []
+
+wm_s_columns_1 = []
+wm_s_columns_05  = []
+
+wm_a_columns_1 = []
+wm_a_columns_05  = []
+
+if_s_columns_1 = []
+if_s_columns_05  = []
+
+if_a_columns_1 = []
+if_a_columns_05  = []
+
+rmd_a_columns_1 = []
+rmd_a_columns_05  = []
+
+wtm_s_columns_1 = []
+wtm_s_columns_05  = []
+
+wtm_a_columns_1 = []
+wtm_a_columns_05  = []
+
+# Forwards
+
+pf_d_columns_1 = []
+pf_d_columns_05  = []
+
+pf_s_columns_1 = []
+pf_s_columns_05  = []
+
+pf_a_columns_1 = []
+pf_a_columns_05  = []
+
+dlf_s_columns_1 = []
+dlf_s_columns_05  = []
+
+dlf_a_columns_1 = []
+dlf_a_columns_05  = []
+
+tm_s_columns_1 = []
+tm_s_columns_05  = []
+
+tm_a_columns_1 = []
+tm_a_columns_05  = []
+
+af_a_columns_1 = []
+af_a_columns_05  = []
+
+poa_s_columns_1 = []
+poa_s_columns_05  = []
+
+f9_s_columns_1 = []
+f9_s_columns_05  = []
+
+cf_s_columns_1 = []
+cf_s_columns_05  = []
+
+cf_a_columns_1 = []
+cf_a_columns_05  = []
 
 
 # Define the maximum possible values for each column (assuming 100 for simplicity, adjust as needed)
@@ -285,68 +387,171 @@ max_values_ifb_d_05 = 20 * 0.5 * len(ifb_d_columns_05)
 
 # Midfielders
 
-max_values_bwm_d_1 = 20 * len(ifb_d_columns_1)
-max_values_bwm_d_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_bwm_d_1 = 20 * len(bwm_d_columns_1)
+max_values_bwm_d_05 = 20 * 0.5 * len(bwm_d_columns_05)
 
-max_values_bwm_s_1 = 20 * len(ifb_d_columns_1)
-max_values_bwm_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_bwm_s_1 = 20 * len(bwm_s_columns_1)
+max_values_bwm_s_05 = 20 * 0.5 * len(bwm_s_columns_05)
 
-max_values_am_d_1 = 20 * len(ifb_d_columns_1)
-max_values_am_d_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_am_d_1 = 20 * len(am_d_columns_1)
+max_values_am_d_05 = 20 * 0.5 * len(am_d_columns_05)
 
-max_values_dm_d_1 = 20 * len(ifb_d_columns_1)
-max_values_dm_d_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_dm_d_1 = 20 * len(dm_d_columns_1)
+max_values_dm_d_05 = 20 * 0.5 * len(dm_d_columns_05)
 
-max_values_dm_s_1 = 20 * len(ifb_d_columns_1)
-max_values_dm_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_dm_s_1 = 20 * len(dm_s_columns_1)
+max_values_dm_s_05 = 20 * 0.5 * len(dm_s_columns_05)
 
-max_values_hb_d_1 = 20 * len(ifb_d_columns_1)
-max_values_hb_d_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_hb_d_1 = 20 * len(hb_d_columns_1)
+max_values_hb_d_05 = 20 * 0.5 * len(hb_d_columns_05)
 
-max_values_dlp_d_1 = 20 * len(ifb_d_columns_1)
-max_values_dlp_d_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_dlp_d_1 = 20 * len(dlp_d_columns_1)
+max_values_dlp_d_05 = 20 * 0.5 * len(dlp_d_columns_05)
 
-max_values_dlp_s_1 = 20 * len(ifb_d_columns_1)
-max_values_dlp_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_dlp_s_1 = 20 * len(dlp_s_columns_1)
+max_values_dlp_s_05 = 20 * 0.5 * len(dlp_s_columns_05)
 
-max_values_sv_s_1 = 20 * len(ifb_d_columns_1)
-max_values_sv_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_sv_s_1 = 20 * len(sv_s_columns_1)
+max_values_sv_s_05 = 20 * 0.5 * len(sv_s_columns_05)
 
-max_values_sv_a_1 = 20 * len(ifb_d_columns_1)
-max_values_sv_a_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_sv_a_1 = 20 * len(sv_a_columns_1)
+max_values_sv_a_05 = 20 * 0.5 * len(sv_a_columns_05)
 
-max_values_rp_s_1 = 20 * len(ifb_d_columns_1)
-max_values_rp_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_rp_s_1 = 20 * len(rp_s_columns_1)
+max_values_rp_s_05 = 20 * 0.5 * len(rp_s_columns_05)
 
-max_values_reg_s_1 = 20 * len(ifb_d_columns_1)
-max_values_reg_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_reg_s_1 = 20 * len(reg_s_columns_1)
+max_values_reg_s_05 = 20 * 0.5 * len(reg_s_columns_05)
 
-max_values_cm_d_1 = 20 * len(ifb_d_columns_1)
-max_values_cm_d_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_cm_d_1 = 20 * len(cm_d_columns_1)
+max_values_cm_d_05 = 20 * 0.5 * len(cm_d_columns_05)
 
-max_values_cm_s_1 = 20 * len(ifb_d_columns_1)
-max_values_cm_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_cm_s_1 = 20 * len(cm_s_columns_1)
+max_values_cm_s_05 = 20 * 0.5 * len(cm_s_columns_05)
 
-max_values_cm_a_1 = 20 * len(ifb_d_columns_1)
-max_values_cm_a_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_cm_a_1 = 20 * len(cm_a_columns_1)
+max_values_cm_a_05 = 20 * 0.5 * len(cm_a_columns_05)
 
-max_values_car_s_1 = 20 * len(ifb_d_columns_1)
-max_values_car_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_car_s_1 = 20 * len(car_s_columns_1)
+max_values_car_s_05 = 20 * 0.5 * len(car_s_columns_05)
 
-max_values_b2b_s_1 = 20 * len(ifb_d_columns_1)
-max_values_b2b_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_b2b_s_1 = 20 * len(b2b_s_columns_1)
+max_values_b2b_s_05 = 20 * 0.5 * len(b2b_s_columns_05)
 
-max_values_mez_s_1 = 20 * len(ifb_d_columns_1)
-max_values_mez_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_mez_s_1 = 20 * len(mez_s_columns_1)
+max_values_mez_s_05 = 20 * 0.5 * len(mez_s_columns_05)
 
-max_values_mez_a_1 = 20 * len(ifb_d_columns_1)
-max_values_mez_a_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_mez_a_1 = 20 * len(mez_a_columns_1)
+max_values_mez_a_05 = 20 * 0.5 * len(mez_a_columns_05)
 
-max_values_ap_s_1 = 20 * len(ifb_d_columns_1)
-max_values_ap_s_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_ap_s_1 = 20 * len(ap_s_columns_1)
+max_values_ap_s_05 = 20 * 0.5 * len(ap_s_columns_05)
 
-max_values_ap_a_1 = 20 * len(ifb_d_columns_1)
-max_values_ap_a_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_ap_a_1 = 20 * len(ap_a_columns_1)
+max_values_ap_a_05 = 20 * 0.5 * len(ap_a_columns_05)
+
+# Wide Midfielders
+
+max_values_am_s_1 = 20 * len(am_s_columns_1)
+max_values_am_s_05 = 20 * 0.5 * len(am_s_columns_05)
+ 
+max_values_am_a_1 = 20 * len(am_a_columns_1)
+max_values_am_a_05 = 20 * 0.5 * len(am_a_columns_05)
+ 
+max_values_ss_a_1 = 20 * len(ss_a_columns_1)
+max_values_ss_a_05 = 20 * 0.5 * len(ss_a_columns_05)
+ 
+max_values_tre_a_1 = 20 * len(tre_a_columns_1)
+max_values_tre_a_05 = 20 * 0.5 * len(tre_a_columns_05)
+ 
+max_values_eng_s_1 = 20 * len(eng_s_columns_1)
+max_values_eng_s_05 = 20 * 0.5 * len(eng_s_columns_05)
+ 
+max_values_iw_s_1 = 20 * len(iw_s_columns_1)
+max_values_iw_s_05 = 20 * 0.5 * len(iw_s_columns_05)
+ 
+max_values_iw_a_1 = 20 * len(iw_a_columns_1)
+max_values_iw_a_05 = 20 * 0.5 * len(iw_a_columns_05)
+ 
+max_values_wp_s_1 = 20 * len(wp_s_columns_1)
+max_values_wp_s_05 = 20 * 0.5 * len(wp_s_columns_05)
+ 
+max_values_wp_a_1 = 20 * len(wp_a_columns_1)
+max_values_wp_a_05 = 20 * 0.5 * len(wp_a_columns_05)
+ 
+max_values_win_s_1 = 20 * len(win_s_columns_1)
+max_values_win_s_05 = 20 * 0.5 * len(win_s_columns_05)
+ 
+max_values_win_a_1 = 20 * len(win_a_columns_1)
+max_values_win_a_05 = 20 * 0.5 * len(win_a_columns_05)
+ 
+max_values_dwin_d_1 = 20 * len(dwin_d_columns_1)
+max_values_dwin_d_05 = 20 * 0.5 * len(dwin_d_columns_05)
+ 
+max_values_dwin_s_1 = 20 * len(dwin_s_columns_1)
+max_values_dwin_s_05 = 20 * 0.5 * len(dwin_s_columns_05)
+ 
+max_values_wm_d_1 = 20 * len(wm_d_columns_1)
+max_values_wm_d_05 = 20 * 0.5 * len(wm_d_columns_05)
+ 
+max_values_wm_s_1 = 20 * len(wm_s_columns_1)
+max_values_wm_s_05 = 20 * 0.5 * len(wm_s_columns_05)
+ 
+max_values_wm_a_1 = 20 * len(wm_a_columns_1)
+max_values_wm_a_05 = 20 * 0.5 * len(wm_a_columns_05)
+ 
+max_values_if_s_1 = 20 * len(if_s_columns_1)
+max_values_if_s_05 = 20 * 0.5 * len(if_s_columns_05)
+ 
+max_values_if_a_1 = 20 * len(if_a_columns_1)
+max_values_if_a_05 = 20 * 0.5 * len(if_a_columns_05)
+ 
+max_values_rmd_a_1 = 20 * len(rmd_a_columns_1)
+max_values_rmd_a_05 = 20 * 0.5 * len(rmd_a_columns_05)
+ 
+max_values_wtm_s_1 = 20 * len(wtm_s_columns_1)
+max_values_wtm_s_05 = 20 * 0.5 * len(wtm_s_columns_05)
+ 
+max_values_wtm_a_1 = 20 * len(wtm_a_columns_1)
+max_values_wtm_a_05 = 20 * 0.5 * len(wtm_a_columns_05)
+
+# Forwards
+ 
+max_values_pf_d_1 = 20 * len(pf_d_columns_1)
+max_values_pf_d_05 = 20 * 0.5 * len(pf_d_columns_05)
+ 
+max_values_pf_s_1 = 20 * len(pf_s_columns_1)
+max_values_pf_s_05 = 20 * 0.5 * len(pf_s_columns_05)
+ 
+max_values_pf_a_1 = 20 * len(pf_a_columns_1)
+max_values_pf_a_05 = 20 * 0.5 * len(pf_a_columns_05)
+ 
+max_values_dlf_s_1 = 20 * len(dlf_s_columns_1)
+max_values_dlf_s_05 = 20 * 0.5 * len(dlf_s_columns_05)
+ 
+max_values_dlf_a_1 = 20 * len(dlf_a_columns_1)
+max_values_dlf_a_05 = 20 * 0.5 * len(dlf_a_columns_05)
+ 
+max_values_tm_s_1 = 20 * len(tm_s_columns_1)
+max_values_tm_s_05 = 20 * 0.5 * len(tm_s_columns_05)
+ 
+max_values_tm_a_1 = 20 * len(tm_a_columns_1)
+max_values_tm_a_05 = 20 * 0.5 * len(tm_a_columns_05)
+ 
+max_values_af_a_1 = 20 * len(af_a_columns_1)
+max_values_af_a_05 = 20 * 0.5 * len(af_a_columns_05)
+ 
+max_values_poa_s_1 = 20 * len(poa_s_columns_1)
+max_values_poa_s_05 = 20 * 0.5 * len(poa_s_columns_05)
+ 
+max_values_f9_s_1 = 20 * len(f9_s_columns_1)
+max_values_f9_s_05 = 20 * 0.5 * len(f9_s_columns_05)
+ 
+max_values_cf_s_1 = 20 * len(cf_s_columns_1)
+max_values_cf_s_05 = 20 * 0.5 * len(cf_s_columns_05)
+ 
+max_values_cf_a_1 = 20 * len(cf_a_columns_1)
+max_values_cf_a_05 = 20 * 0.5 * len(cf_a_columns_05)
 
 
 # Create a new DataFrame with 'Name 1' and 'Name 2'
