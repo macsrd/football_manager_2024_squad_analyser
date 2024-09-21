@@ -217,73 +217,73 @@ win_s_columns_05  = [11, 21, 22, 25, 37, 46]
 win_a_columns_1 = [8, 26, 38, 48]
 win_a_columns_05  = [3, 11, 21, 22, 24, 25, 37, 46]
 
-dwin_d_columns_1 = []
-dwin_d_columns_05  = []
+dwin_d_columns_1 = [11, 22, 24, 38, 39, 41, 46]
+dwin_d_columns_05  = [2, 5, 8, 9, 16, 17, 18, 25, 26]
 
-dwin_s_columns_1 = []
-dwin_s_columns_05  = []
+dwin_s_columns_1 = [8, 11, 22, 38, 41, 46]
+dwin_s_columns_05  = [2, 5, 9, 16, 17, 18, 21, 24, 25, 26, 39]
 
-wm_d_columns_1 = []
-wm_d_columns_05  = []
+wm_d_columns_1 = [5, 16, 18, 21, 22, 39, 41]
+wm_d_columns_05  = [8, 17, 19, 24, 25, 38, 46]
 
-wm_s_columns_1 = []
-wm_s_columns_05  = []
+wm_s_columns_1 = [5, 18, 21, 22, 41, 46]
+wm_s_columns_05  = [8, 11, 16, 19, 23, 24, 25, 38, 46]
 
-wm_a_columns_1 = []
-wm_a_columns_05  = []
+wm_a_columns_1 = [5, 8, 21, 22, 25, 41, 46]
+wm_a_columns_05  = [11, 18, 19, 23, 24, 38]
 
-if_s_columns_1 = []
-if_s_columns_05  = []
+if_s_columns_1 = [9, 11, 25, 26, 38, 43, 48]
+if_s_columns_05  = [3, 19, 21, 22, 23, 24, 27, 29, 36, 37, 46]
 
-if_a_columns_1 = []
-if_a_columns_05  = []
+if_a_columns_1 = [9, 11, 25, 26, 38, 43, 48]
+if_a_columns_05  = [3, 19, 21, 22, 24, 27, 29, 36, 37, 46]
 
-rmd_a_columns_1 = []
-rmd_a_columns_05  = []
+rmd_a_columns_1 = [5, 11, 16, 19, 24, 29, 43]
+rmd_a_columns_05  = [22, 25, 26, 38, 46]
 
-wtm_s_columns_1 = []
-wtm_s_columns_05  = []
+wtm_s_columns_1 = [12, 33, 34, 40, 41]
+wtm_s_columns_05  = [8, 11, 22, 24, 25, 29, 46]
 
-wtm_a_columns_1 = []
-wtm_a_columns_05  = []
+wtm_a_columns_1 = [11, 12, 33, 34, 40]
+wtm_a_columns_05  = [8, 22, 24, 25, 29, 41, 43, 46]
 
 # Forwards
 
-pf_d_columns_1 = []
-pf_d_columns_05  = []
+pf_d_columns_1 = [2, 5, 22, 24, 26, 37, 40, 41, 46]
+pf_d_columns_05  = [16, 19, 25, 29, 33, 48]
 
-pf_s_columns_1 = []
-pf_s_columns_05  = []
+pf_s_columns_1 = [2, 5, 22, 24, 26, 37, 40, 41, 46]
+pf_s_columns_05  = [11, 16, 19, 21, 25, 29, 33, 48]
 
-pf_a_columns_1 = []
-pf_a_columns_05  = []
+pf_a_columns_1 = [2, 11, 22, 24, 26, 37, 40, 41, 46]
+pf_a_columns_05  = [5, 16, 19, 21, 25, 29, 33, 48]
 
-dlf_s_columns_1 = []
-dlf_s_columns_05  = []
+dlf_s_columns_1 = [5, 11, 19, 21, 25, 38, 41]
+dlf_s_columns_05  = [3, 23, 24, 29, 33, 43]
 
-dlf_a_columns_1 = []
-dlf_a_columns_05  = []
+dlf_a_columns_1 = [5, 11, 19, 21, 25, 38, 41]
+dlf_a_columns_05  = [3, 9, 23, 24, 29, 33, 43]
 
-tm_s_columns_1 = []
-tm_s_columns_05  = []
+tm_s_columns_1 = [12, 29, 33, 34, 40, 41]
+tm_s_columns_05  = [2, 5, 11, 19, 24, 25, 43]
 
-tm_a_columns_1 = []
-tm_a_columns_05  = []
+tm_a_columns_1 = [11, 12, 19, 29, 33, 34, 40, 43]
+tm_a_columns_05  = [2, 5, 25, 41]
 
-af_a_columns_1 = []
-af_a_columns_05  = []
+af_a_columns_1 = [9, 11, 19, 25, 26, 38, 43]
+af_a_columns_05  = [5, 21, 22, 24, 37, 46, 48]
 
-poa_s_columns_1 = []
-poa_s_columns_05  = []
+poa_s_columns_1 = [11, 19, 24, 43]
+poa_s_columns_05  = [5, 12, 25, 26, 38]
 
-f9_s_columns_1 = []
-f9_s_columns_05  = []
+f9_s_columns_1 = [5, 9, 11, 19, 21, 23, 25, 26, 38, 48]
+f9_s_columns_05  = [3, 24, 29, 41, 43]
 
-cf_s_columns_1 = []
-cf_s_columns_05  = []
+cf_s_columns_1 = [5, 9, 11, 12, 19, 21, 23, 24, 25, 26, 33, 36, 38, 48]
+cf_s_columns_05  = [22, 29, 34, 37, 41, 43, 46]
 
-cf_a_columns_1 = []
-cf_a_columns_05  = []
+cf_a_columns_1 = [9, 11, 12, 19, 24, 25, 26, 33, 38, 48]
+cf_a_columns_05  = [5, 21, 22, 23, 29, 34, 36, 37, 41, 46]
 
 
 # Define the maximum possible values for each column (assuming 100 for simplicity, adjust as needed)
