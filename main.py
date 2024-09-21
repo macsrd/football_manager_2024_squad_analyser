@@ -1,7 +1,22 @@
 import pandas as pd
+import PySimpleGUI as sg
 
-# HTML file path
-html_file_path = 'Export/FMSA.html'
+open_window = [
+    [sg.Text("Please select an HTML Football Manager 2024 Export file:")],
+    [sg.Input(), sg.FileBrowse(file_types=(("HTML Files", "*.html"),))],
+    [sg.OK(), sg.Cancel()]
+]
+
+window = sg.Window("File Selector", open_window)
+
+event, values = window.read()
+window.close()
+
+if event == 'OK' and values[0]:
+    html_file_path = values[0]
+
+else:
+    print("No file selected or action canceled.")
 
 # Reading HTML file in utf-8 format.
 dfs = pd.read_html(html_file_path, encoding='utf-8')
@@ -984,3 +999,4 @@ new_df['CF (A)'] = (cf_a_1_sum + cf_a_05_sum) / (max_values_cf_a_1 + max_values_
 
 # Printing new DataFrame with calculations.
 print(new_df)
+
