@@ -199,23 +199,23 @@ eng_s_columns_05  = [3, 9, 11, 24, 41, 48]
 
 # Wide Midfielders
 
-iw_s_columns_1 = []
-iw_s_columns_05  = []
+iw_s_columns_1 = [8, 9, 21, 26, 38, 48]
+iw_s_columns_05  = [5, 11, 19, 22, 23, 25, 29, 36, 37, 46]
 
-iw_a_columns_1 = []
-iw_a_columns_05  = []
+iw_a_columns_1 = [8, 9, 21, 26, 38]
+iw_a_columns_05  = [3, 5, 11, 19, 22, 23, 24, 25, 29, 36, 37]
 
-wp_s_columns_1 = []
-wp_s_columns_05  = []
+wp_s_columns_1 = [5, 19, 21, 23, 25, 38, 41]
+wp_s_columns_05  = [9, 11, 48]
 
-wp_a_columns_1 = []
-wp_a_columns_05  = []
+wp_a_columns_1 = [5, 19, 21, 23, 25, 38, 41]
+wp_a_columns_05  = [3, 9, 11, 24, 26, 48]
 
-win_s_columns_1 = []
-win_s_columns_05  = []
+win_s_columns_1 = [8, 26, 38, 48]
+win_s_columns_05  = [11, 21, 22, 25, 37, 46]
 
-win_a_columns_1 = []
-win_a_columns_05  = []
+win_a_columns_1 = [8, 26, 38, 48]
+win_a_columns_05  = [3, 11, 21, 22, 24, 25, 37, 46]
 
 dwin_d_columns_1 = []
 dwin_d_columns_05  = []
