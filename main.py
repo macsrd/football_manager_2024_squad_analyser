@@ -1,12 +1,31 @@
 import pandas as pd
+import PySimpleGUI as sg
 
-# HTML file path
-html_file_path = 'Export/FMSA.html'
+# GUI to select file location
+## To consider changing PySimpleGUI to open source GUI as it's licensed now.
+
+open_window = [
+    [sg.Text("Please select an HTML Football Manager 2024 Export file:")],
+    [sg.Input(), sg.FileBrowse(file_types=(("HTML Files", "*.html"),))],
+    [sg.OK(), sg.Cancel()]
+]
+
+window = sg.Window("File Selector", open_window)
+
+event, values = window.read()
+window.close()
+
+if event == 'OK' and values[0]:
+    html_file_path = values[0]
+
+else:
+    print("No file selected or action canceled.")
 
 # Reading HTML file in utf-8 format.
+## Reading RTF file format also to be added
 dfs = pd.read_html(html_file_path, encoding='utf-8')
 
-# Reading first table in dataframe (just in case)
+# Reading first table in dataframe (there should be always one - just in case)
 df = dfs[0] 
 
 # Printing DataFrame (for testing)
@@ -14,7 +33,7 @@ df = dfs[0]
 
 # Defining which columns are taken into account to calculate specific position 
 
-# Goalkeepers
+# # Goalkeepers
 
 goalkeeper_d_columns_1 = [4, 13, 15, 16, 28, 39, 44, 47, 48]  # Tier 1 (1.0 Multiplier)
 goalkeeper_d_columns_05 = [5, 14, 24, 45]  # # Tier 6 (0.5 Multiplier)
@@ -28,7 +47,7 @@ goalkeeper_libero_s_columns_05 = [4, 5, 15, 21, 23, 25, 26, 45, 47]  # # Tier 6 
 goalkeeper_libero_a_columns_1 = [13, 14, 16, 19, 24, 28, 39, 42, 44, 48]  # Tier 1 (1.0 Multiplier)
 goalkeeper_libero_a_columns_05 = [4, 5, 10, 15, 21, 23, 25, 26, 45, 47]  # # Tier 6 (0.5 Multiplier)
 
-# Central Defenders
+# # Central Defenders
 
 libero_d_columns_1 = [5, 12, 17, 18, 19, 21, 25, 33, 34, 38, 39, 41]  # Tier 1 (1.0 Multiplier)
 libero_d_columns_05 = [16, 24, 37, 40, 46]  # # Tier 6 (0.5 Multiplier)
@@ -72,7 +91,7 @@ wcb_s_columns_05 = [2, 5, 8, 11, 16, 19, 21, 22, 24, 25, 38, 40, 46, 48]  # # Ti
 wcb_a_columns_1 = [8, 9, 11, 12, 17, 18, 33, 34, 37, 46]  # Tier 1 (1.0 Multiplier)
 wcb_a_columns_05 = [2, 5, 16, 19, 21, 22, 24, 25, 38, 39, 40, 48]  # # Tier 6 (0.5 Multiplier)
 
-# Wide Defenders
+# # Wide Defenders
 
 fb_d_columns_1 = [16, 17, 18, 24, 39]
 fb_d_columns_05 = [5, 8, 21, 22, 37, 41, 46]
@@ -113,7 +132,7 @@ iwb_a_columns_05 = [3, 8, 9, 16, 17, 22, 24, 25, 36, 37, 38, 39, 46, 48]
 ifb_d_columns_1 = [12, 17, 18, 33, 39]
 ifb_d_columns_05 = [2, 5, 9, 16, 19, 21, 22, 24, 25, 34, 37, 38, 40, 48]
 
-# Midfielders
+# # Midfielders
 
 bwm_d_columns_1 = [2, 18, 22, 26, 41, 46]
 bwm_d_columns_05 = [16, 17, 33, 37, 39, 40, 48]
@@ -193,7 +212,7 @@ tre_a_columns_05  = [24, 29, 43, 48]
 eng_s_columns_1 = [5, 19, 21, 23, 25, 38]
 eng_s_columns_05  = [3, 9, 11, 24, 41, 48]
 
-# Wide Midfielders
+# # Wide Midfielders
 
 iw_s_columns_1 = [8, 9, 21, 26, 38, 48]
 iw_s_columns_05  = [5, 11, 19, 22, 23, 25, 29, 36, 37, 46]
@@ -243,7 +262,7 @@ wtm_s_columns_05  = [8, 11, 22, 24, 25, 29, 46]
 wtm_a_columns_1 = [11, 12, 33, 34, 40]
 wtm_a_columns_05  = [8, 22, 24, 25, 29, 41, 43, 46]
 
-# Forwards
+# # Forwards
 
 pf_d_columns_1 = [2, 5, 22, 24, 26, 37, 40, 41, 46]
 pf_d_columns_05  = [16, 19, 25, 29, 33, 48]
@@ -284,7 +303,7 @@ cf_a_columns_05  = [5, 21, 22, 23, 29, 34, 36, 37, 41, 46]
 
 # Calculating maximum possible value for each column
 
-# Goalkeepers
+# # Goalkeepers
 max_values_goalkeeper_d_1 = 20 * len(goalkeeper_d_columns_1)
 max_values_goalkeeper_d_05 = 20 * 0.5 * len(goalkeeper_d_columns_05)
 
@@ -297,7 +316,7 @@ max_values_goalkeeper_libero_s_05 = 20 * 0.5 * len(goalkeeper_libero_s_columns_0
 max_values_goalkeeper_libero_a_1 = 20 * len(goalkeeper_libero_a_columns_1)
 max_values_goalkeeper_libero_a_05 = 20 * 0.5 * len(goalkeeper_libero_a_columns_05)
 
-# Central Defenders
+# # Central Defenders
 max_values_libero_d_1 = 20 * len(libero_d_columns_1)
 max_values_libero_d_05 = 20 * 0.5 * len(libero_d_columns_05)
 
@@ -340,7 +359,7 @@ max_values_wcb_s_05 = 20 * 0.5 * len(wcb_s_columns_05)
 max_values_wcb_a_1 = 20 * len(wcb_a_columns_1)
 max_values_wcb_a_05 = 20 * 0.5 * len(wcb_a_columns_05)
 
-# Wide Defenders
+# # Wide Defenders
 
 max_values_fb_d_1 = 20 * len(fb_d_columns_1)
 max_values_fb_d_05 = 20 * 0.5 * len(fb_d_columns_05)
@@ -381,7 +400,7 @@ max_values_iwb_a_05 = 20 * 0.5 * len(iwb_a_columns_05)
 max_values_ifb_d_1 = 20 * len(ifb_d_columns_1)
 max_values_ifb_d_05 = 20 * 0.5 * len(ifb_d_columns_05)
 
-# Midfielders
+# # Midfielders
 
 max_values_bwm_d_1 = 20 * len(bwm_d_columns_1)
 max_values_bwm_d_05 = 20 * 0.5 * len(bwm_d_columns_05)
@@ -446,7 +465,7 @@ max_values_ap_s_05 = 20 * 0.5 * len(ap_s_columns_05)
 max_values_ap_a_1 = 20 * len(ap_a_columns_1)
 max_values_ap_a_05 = 20 * 0.5 * len(ap_a_columns_05)
 
-# Wide Midfielders
+# # Wide Midfielders
 
 max_values_am_s_1 = 20 * len(am_s_columns_1)
 max_values_am_s_05 = 20 * 0.5 * len(am_s_columns_05)
@@ -511,7 +530,7 @@ max_values_wtm_s_05 = 20 * 0.5 * len(wtm_s_columns_05)
 max_values_wtm_a_1 = 20 * len(wtm_a_columns_1)
 max_values_wtm_a_05 = 20 * 0.5 * len(wtm_a_columns_05)
 
-# Forwards
+# # Forwards
  
 max_values_pf_d_1 = 20 * len(pf_d_columns_1)
 max_values_pf_d_05 = 20 * 0.5 * len(pf_d_columns_05)
@@ -983,4 +1002,31 @@ cf_a_05_sum = df.iloc[:, cf_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplie
 new_df['CF (A)'] = (cf_a_1_sum + cf_a_05_sum) / (max_values_cf_a_1 + max_values_cf_a_05) * 100  # Percentage calculation
 
 # Printing new DataFrame with calculations.
-print(new_df)
+#print(new_df)
+
+# GUI to select save location
+## To consider changing PySimpleGUI to open source GUI as it's licensed now.
+
+save_window = [
+    [sg.Text("Please select a location to save the file:")],
+    [sg.Input(), sg.FileSaveAs(file_types=(("Excel Files", "*.xlsx"),))],
+    [sg.OK(), sg.Cancel()]
+]
+
+window = sg.Window("Save File", save_window)
+
+event, values = window.read()
+window.close()
+
+if event == 'OK' and values[0]:
+    excel_file_path = values[0]
+    
+    # Ensure the file has the correct extension
+    if not excel_file_path.endswith(".xlsx"):
+        excel_file_path += ".xlsx"
+    
+    # Step 4: Save the dataframe to the selected Excel file
+    new_df.to_excel(excel_file_path, index=False)
+    sg.popup(f"File saved successfully at {excel_file_path}")
+else:
+    print("Save action canceled or no location selected.")
