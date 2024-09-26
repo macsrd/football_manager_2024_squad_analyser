@@ -22,7 +22,7 @@ else:
     print("No file selected or action canceled.")
 
 # Reading HTML file in utf-8 format.
-## Reading RTF file format also to be added
+## Reading RTF file format also to be added ##
 dfs = pd.read_html(html_file_path, encoding='utf-8')
 
 # Reading first table in dataframe (there should be always one - just in case)
@@ -31,21 +31,20 @@ df = dfs[0]
 # Printing DataFrame (for testing)
 # print(df)
 
-# Range of columns to check for integers (columns 2 to 48 for squad view)
-cols_to_check = list(range(2, 48)) 
-
-# Function to check if a value is an integer
-def is_integer(val):
+# Filtering only rows with integers in columns 2 to 48 (eliminating not fully scouted players on trial)
+def check_integer(x):
     try:
-        return int(val) == val 
-    except (ValueError, TypeError):
+        return pd.to_numeric(x, errors='coerce').notna().all() and pd.to_numeric(x, errors='coerce').eq(pd.to_numeric(x, errors='coerce').astype(int)).all()
+    except ValueError:
         return False
-    
-# Function to calculate position suitability percentage
-def calculate_percentage(row, cols_1, cols_05, max_values_1, max_values_05):
-    sum_1 = row[cols_1].sum() # Tier 1 (Multiplier 1.0)
-    sum_05 = row[cols_05].sum() * 0.5  # Tier 6 (Multiplier 0.5)
-    return (sum_1 + sum_05) / (max_values_1 + max_values_05) * 100
+
+df = df.loc[df.iloc[:, 2:48].apply(check_integer, axis=1).fillna(False)]
+
+def calculate_percentage(df, new_df, column_1, column_05, max_value_1, max_value_05, new_col_name):
+    tier_1_sum = df.iloc[:, column_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
+    tier_05_sum = df.iloc[:, column_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
+    new_df[new_col_name] = (tier_1_sum + tier_05_sum) / (max_value_1 + max_value_05) * 100  # Percentage calculation
+
 
 # Function to calculate maximum column values (20 as maximum skill)
 def calculate_max_values(column_list_1, column_list_05):
@@ -468,185 +467,90 @@ max_values_cf_a_1, max_values_cf_a_05 = calculate_max_values(cf_a_columns_1, cf_
 # Copying first two columns to new DataFrame
 new_df = df.iloc[: , [0, 1]].copy() 
 
-new_df['Goalkeeper (D)'] = None
-new_df['Goalkeeper-libero (D)'] = None
-new_df['Goalkeeper-libero (S)'] = None
-new_df['Goalkeeper-libero (A)'] = None
-new_df['Libero (D)'] = None
-new_df['Libero (S)'] = None
-new_df['TCD (D)'] = None
-new_df['TCD (S)'] = None
-new_df['TCD (C)'] = None
-new_df['CD (D)'] = None
-new_df['CD (S)'] = None
-new_df['CD (C)'] = None
-new_df['BPD (D)'] = None
-new_df['BPD (S)'] = None
-new_df['BPD (C)'] = None
-new_df['WCB (D)'] = None
-new_df['WCB (S)'] = None
-new_df['WCB (A)'] = None
-new_df['FB (D)'] = None
-new_df['FB (S)']  = None
-new_df['FB (A)'] = None
-new_df['WB (D)'] = None
-new_df['WB (S)'] = None
-new_df['WB (A)'] = None
-new_df['N_N FB']  = None
-new_df['CWB (S)'] = None
-new_df['CWB (A)']  = None
-new_df['IWB (D)'] = None
-new_df['IWB (S)'] = None
-new_df['IWB (A)']  = None
-new_df['IFB (D)']  = None
-new_df['BWM (D)'] = None
-new_df['BWM (S)']  = None
-new_df['AM (D)'] = None
-new_df['DM (D)'] = None
-new_df['DM (S)']  = None
-new_df['HB (D)'] = None
-new_df['DLP (D)'] = None
-new_df['DLP (S)'] = None
-new_df['SV (S)'] = None
-new_df['SV (A)'] = None
-new_df['RP (S)']  = None
-new_df['REG (S)'] = None
-new_df['CM (D)'] = None
-new_df['CM (S)']  = None
-new_df['CM (A)']  = None
-new_df['CAR (S)'] = None
-new_df['B2B (S)']  = None
-new_df['MEZ (S)'] = None
-new_df['MEZ (A)'] = None
-new_df['AP (S)'] = None
-new_df['AP (A)'] = None
-new_df['AM (S)'] = None
-new_df['AM (A)'] = None
-new_df['SS (A)']  = None
-new_df['TRE (A)'] = None
-new_df['ENG (S)']  = None
-new_df['IW (S)']  = None
-new_df['IW (A)']  = None
-new_df['WP (S)'] = None
-new_df['WP (A)'] = None
-new_df['WIN (S)'] = None
-new_df['WIN (A)'] = None
-new_df['DWIN (D)'] = None
-new_df['DWIN (S)']  = None
-new_df['WM (D)']  = None
-new_df['WM (S)']  = None
-new_df['WM (A)']  = None
-new_df['IF (S)'] = None
-new_df['IF (A)'] = None
-new_df['RMD (A)'] = None
-new_df['WTM (S)'] = None
-new_df['WTM (A)']  = None
-new_df['PF (D)'] = None
-new_df['PF (S)'] = None
-new_df['PF (A)']  = None
-new_df['DLF (S)']  = None
-new_df['DLF (A)']  = None
-new_df['TM (S)']  = None
-new_df['TM (A)']  = None
-new_df['AF (A)']  = None
-new_df['POA (S)'] = None
-new_df['F9 (S)']  = None
-new_df['CF (S)']  = None
-new_df['CF (A)'] = None
-
-for idx, row in df.iterrows():
-    if df.iloc[idx, cols_to_check].apply(is_integer).all():
-
-        calculations = {
-            'Goalkeeper (D)': (goalkeeper_d_columns_1, goalkeeper_d_columns_05, max_values_goalkeeper_d_1, max_values_goalkeeper_d_05),
-            'Goalkeeper-libero (D)': (goalkeeper_libero_d_columns_1, goalkeeper_libero_d_columns_05, max_values_goalkeeper_libero_d_1, max_values_goalkeeper_libero_d_05),
-            'Goalkeeper-libero (S)': (goalkeeper_libero_s_columns_1, goalkeeper_libero_s_columns_05, max_values_goalkeeper_libero_s_1, max_values_goalkeeper_libero_s_05),
-            'Goalkeeper-libero (A)': (goalkeeper_libero_a_columns_1, goalkeeper_libero_a_columns_05, max_values_goalkeeper_libero_a_1, max_values_goalkeeper_libero_a_05),
-            'Libero (D)': (libero_d_columns_1, libero_d_columns_05, max_values_libero_d_1, max_values_libero_d_05),
-            'Libero (S)': (libero_s_columns_1, libero_s_columns_05, max_values_libero_s_1, max_values_libero_s_05),
-            'TCD (D)': (tcd_d_columns_1, tcd_d_columns_05, max_values_tcd_d_1, max_values_tcd_d_05),
-            'TCD (S)': (tcd_s_columns_1, tcd_s_columns_05, max_values_tcd_s_1, max_values_tcd_s_05),
-            'TCD (C)': (tcd_c_columns_1, tcd_c_columns_05, max_values_tcd_c_1, max_values_tcd_c_05),
-            'CD (D)': (cd_d_columns_1, cd_d_columns_05, max_values_cd_d_1, max_values_cd_d_05),
-            'CD (S)': (cd_s_columns_1, cd_s_columns_05, max_values_cd_s_1, max_values_cd_s_05),
-            'CD (C)': (cd_c_columns_1, cd_c_columns_05, max_values_cd_c_1, max_values_cd_c_05),
-            'BPD (D)': (bpd_d_columns_1, bpd_d_columns_05, max_values_bpd_d_1, max_values_bpd_d_05),
-            'BPD (S)': (bpd_s_columns_1, bpd_s_columns_05, max_values_bpd_s_1, max_values_bpd_s_05),
-            'BPD (C)': (bpd_c_columns_1, bpd_c_columns_05, max_values_bpd_c_1, max_values_bpd_c_05),
-            'WCB (D)': (wcb_d_columns_1, wcb_d_columns_05, max_values_wcb_d_1, max_values_wcb_d_05),
-            'WCB (S)': (wcb_s_columns_1, wcb_s_columns_05, max_values_wcb_s_1, max_values_wcb_s_05),
-            'WCB (A)': (wcb_a_columns_1, wcb_a_columns_05, max_values_wcb_a_1, max_values_wcb_a_05),
-            'FB (D)': (fb_d_columns_1, fb_d_columns_05, max_values_fb_d_1, max_values_fb_d_05),
-            'FB (S)': (fb_s_columns_1, fb_s_columns_05, max_values_fb_s_1, max_values_fb_s_05),
-            'FB (A)': (fb_a_columns_1, fb_a_columns_05, max_values_fb_a_1, max_values_fb_a_05),
-            'WB (D)': (wb_d_columns_1, wb_d_columns_05, max_values_wb_d_1, max_values_wb_d_05),
-            'WB (S)': (wb_s_columns_1, wb_s_columns_05, max_values_wb_s_1, max_values_wb_s_05),
-            'WB (A)': (wb_a_columns_1, wb_a_columns_05, max_values_wb_a_1, max_values_wb_a_05),
-            'N_N FB': (n_n_fb_columns_1, n_n_fb_columns_05, max_values_n_n_fb_1, max_values_n_n_fb_05),
-            'CWB (S)': (cwb_s_columns_1, cwb_s_columns_05, max_values_cwb_s_1, max_values_cwb_s_05),
-            'CWB (A)': (cwb_a_columns_1, cwb_a_columns_05, max_values_cwb_a_1, max_values_cwb_a_05),
-            'IWB (D)': (iwb_d_columns_1, iwb_d_columns_05, max_values_iwb_d_1, max_values_iwb_d_05),
-            'IWB (S)': (iwb_s_columns_1, iwb_s_columns_05, max_values_iwb_s_1, max_values_iwb_s_05),
-            'IWB (A)': (iwb_a_columns_1, iwb_a_columns_05, max_values_iwb_a_1, max_values_iwb_a_05),
-            'IFB (D)': (ifb_d_columns_1, ifb_d_columns_05, max_values_ifb_d_1, max_values_ifb_d_05),
-            'BWM (D)': (bwm_d_columns_1, bwm_d_columns_05, max_values_bwm_d_1, max_values_bwm_d_05),
-            'BWM (S)': (bwm_s_columns_1, bwm_s_columns_05, max_values_bwm_s_1, max_values_bwm_s_05),
-            'AM (D)': (am_d_columns_1, am_d_columns_05, max_values_am_d_1, max_values_am_d_05),
-            'DM (D)': (dm_d_columns_1, dm_d_columns_05, max_values_dm_d_1, max_values_dm_d_05),
-            'DM (S)': (dm_s_columns_1, dm_s_columns_05, max_values_dm_s_1, max_values_dm_s_05),
-            'HB (D)': (hb_d_columns_1, hb_d_columns_05, max_values_hb_d_1, max_values_hb_d_05),
-            'DLP (D)': (dlp_d_columns_1, dlp_d_columns_05, max_values_dlp_d_1, max_values_dlp_d_05),
-            'DLP (S)': (dlp_s_columns_1, dlp_s_columns_05, max_values_dlp_s_1, max_values_dlp_s_05),
-            'SV (S)': (sv_s_columns_1, sv_s_columns_05, max_values_sv_s_1, max_values_sv_s_05),
-            'SV (A)': (sv_a_columns_1, sv_a_columns_05, max_values_sv_a_1, max_values_sv_a_05),
-            'RP (S)': (rp_s_columns_1, rp_s_columns_05, max_values_rp_s_1, max_values_rp_s_05),
-            'CM (D)': (cm_d_columns_1, cm_d_columns_05, max_values_cm_d_1, max_values_cm_d_05),
-            'CM (S)': (cm_s_columns_1, cm_s_columns_05, max_values_cm_s_1, max_values_cm_s_05),
-            'CM (A)': (cm_a_columns_1, cm_a_columns_05, max_values_cm_a_1, max_values_cm_a_05),
-            'CAR (S)': (car_s_columns_1, car_s_columns_05, max_values_car_s_1, max_values_car_s_05),
-            'B2B (S)': (b2b_s_columns_1, b2b_s_columns_05, max_values_b2b_s_1, max_values_b2b_s_05),
-            'MEZ (S)': (mez_s_columns_1, mez_s_columns_05, max_values_mez_s_1, max_values_mez_s_05),
-            'MEZ (A)': (mez_a_columns_1, mez_a_columns_05, max_values_mez_a_1, max_values_mez_a_05),
-            'AP (S)': (ap_s_columns_1, ap_s_columns_05, max_values_ap_s_1, max_values_ap_s_05),
-            'AP (A)': (ap_a_columns_1, ap_a_columns_05, max_values_ap_a_1, max_values_ap_a_05),
-            'AM (S)': (am_s_columns_1, am_s_columns_05, max_values_am_s_1, max_values_am_s_05),
-            'AM (A)': (am_a_columns_1, am_a_columns_05, max_values_am_a_1, max_values_am_a_05),
-            'SS (A)': (ss_a_columns_1, ss_a_columns_05, max_values_ss_a_1, max_values_ss_a_05),
-            'TRE (A)': (tre_a_columns_1, tre_a_columns_05, max_values_tre_a_1, max_values_tre_a_05),
-            'ENG (S)': (eng_s_columns_1, eng_s_columns_05, max_values_eng_s_1, max_values_eng_s_05),
-            'IW (S)': (iw_s_columns_1, iw_s_columns_05, max_values_iw_s_1, max_values_iw_s_05),
-            'IW (A)': (iw_a_columns_1, iw_a_columns_05, max_values_iw_a_1, max_values_iw_a_05),
-            'WP (S)': (wp_s_columns_1, wp_s_columns_05, max_values_wp_s_1, max_values_wp_s_05),
-            'WP (A)': (wp_a_columns_1, wp_a_columns_05, max_values_wp_a_1, max_values_wp_a_05),
-            'WIN (S)': (win_s_columns_1, win_s_columns_05, max_values_win_s_1, max_values_win_s_05),
-            'WIN (A)': (win_a_columns_1, win_a_columns_05, max_values_win_a_1, max_values_win_a_05),
-            'DWIN (D)': (dwin_d_columns_1, dwin_d_columns_05, max_values_dwin_d_1, max_values_dwin_d_05),
-            'DWIN (S)': (dwin_s_columns_1, dwin_s_columns_05, max_values_dwin_s_1, max_values_dwin_s_05),
-            'WM (D)': (wm_d_columns_1, wm_d_columns_05, max_values_wm_d_1, max_values_wm_d_05),
-            'WM (S)': (wm_s_columns_1, wm_s_columns_05, max_values_wm_s_1, max_values_wm_s_05),
-            'WM (A)': (wm_a_columns_1, wm_a_columns_05, max_values_wm_a_1, max_values_wm_a_05),
-            'IF (S)': (if_s_columns_1, if_s_columns_05, max_values_if_s_1, max_values_if_s_05),
-            'IF (A)': (if_a_columns_1, if_a_columns_05, max_values_if_a_1, max_values_if_a_05),
-            'RMD (A)': (rmd_a_columns_1, rmd_a_columns_05, max_values_rmd_a_1, max_values_rmd_a_05),
-            'WTM (S)': (wtm_s_columns_1, wtm_s_columns_05, max_values_wtm_s_1, max_values_wtm_s_05),
-            'WTM (A)': (wtm_a_columns_1, wtm_a_columns_05, max_values_wtm_a_1, max_values_wtm_a_05),
-            'PF (D)': (pf_d_columns_1, pf_d_columns_05, max_values_pf_d_1, max_values_pf_d_05),
-            'PF (S)': (pf_s_columns_1, pf_s_columns_05, max_values_pf_s_1, max_values_pf_s_05),
-            'PF (A)': (pf_a_columns_1, pf_a_columns_05, max_values_pf_a_1, max_values_pf_a_05),
-            'DLF (S)': (dlf_s_columns_1, dlf_s_columns_05, max_values_dlf_s_1, max_values_dlf_s_05),
-            'DLF (A)': (dlf_a_columns_1, dlf_a_columns_05, max_values_dlf_a_1, max_values_dlf_a_05),
-            'TM (S)': (tm_s_columns_1, tm_s_columns_05, max_values_tm_s_1, max_values_tm_s_05),
-            'TM (A)': (tm_a_columns_1, tm_a_columns_05, max_values_tm_a_1, max_values_tm_a_05),
-            'AF (A)': (af_a_columns_1, af_a_columns_05, max_values_af_a_1, max_values_af_a_05),
-            'POA (S)': (poa_s_columns_1, poa_s_columns_05, max_values_poa_s_1, max_values_poa_s_05),
-            'F9 (S)': (f9_s_columns_1, f9_s_columns_05, max_values_f9_s_1, max_values_f9_s_05),
-            'CF (S)': (cf_s_columns_1, cf_s_columns_05, max_values_cf_s_1, max_values_cf_s_05),
-            'CF (A)': (cf_a_columns_1, cf_a_columns_05, max_values_cf_a_1, max_values_cf_a_05),
-        }
-
-        # Calculate percentages for all keys in calculations dictionary
-        for key, (cols_1, cols_05, max_values_1, max_values_05) in calculations.items():
-            new_df.at[idx, key] = calculate_percentage(row, cols_1, cols_05, max_values_1, max_values_05)
+calculate_percentage(df, new_df, goalkeeper_d_columns_1, goalkeeper_d_columns_05, max_values_goalkeeper_d_1, max_values_goalkeeper_d_05, 'Goalkeeper (D)')
+calculate_percentage(df, new_df, goalkeeper_libero_d_columns_1, goalkeeper_libero_d_columns_05, max_values_goalkeeper_libero_d_1, max_values_goalkeeper_libero_d_05, 'Goalkeeper-libero (D)')
+calculate_percentage(df, new_df, goalkeeper_libero_s_columns_1, goalkeeper_libero_s_columns_05, max_values_goalkeeper_libero_s_1, max_values_goalkeeper_libero_s_05, 'Goalkeeper-libero (S)')
+calculate_percentage(df, new_df, goalkeeper_libero_a_columns_1, goalkeeper_libero_a_columns_05, max_values_goalkeeper_libero_a_1, max_values_goalkeeper_libero_a_05, 'Goalkeeper-libero (A)')
+calculate_percentage(df, new_df, libero_d_columns_1, libero_d_columns_05, max_values_libero_d_1, max_values_libero_d_05, 'Libero (D)')
+calculate_percentage(df, new_df, libero_s_columns_1, libero_s_columns_05, max_values_libero_s_1, max_values_libero_s_05, 'Libero (S)')
+calculate_percentage(df, new_df, tcd_d_columns_1, tcd_d_columns_05, max_values_tcd_d_1, max_values_tcd_d_05, 'TCD (D)')
+calculate_percentage(df, new_df, tcd_s_columns_1, tcd_s_columns_05, max_values_tcd_s_1, max_values_tcd_s_05, 'TCD (S)')
+calculate_percentage(df, new_df, tcd_c_columns_1, tcd_c_columns_05, max_values_tcd_c_1, max_values_tcd_c_05, 'TCD (C)')
+calculate_percentage(df, new_df, cd_d_columns_1, cd_d_columns_05, max_values_cd_d_1, max_values_cd_d_05, 'CD (D)')
+calculate_percentage(df, new_df, cd_s_columns_1, cd_s_columns_05, max_values_cd_s_1, max_values_cd_s_05, 'CD (S)')
+calculate_percentage(df, new_df, cd_c_columns_1, cd_c_columns_05, max_values_cd_c_1, max_values_cd_c_05, 'CD (C)')
+calculate_percentage(df, new_df, bpd_d_columns_1, bpd_d_columns_05, max_values_bpd_d_1, max_values_bpd_d_05, 'BPD (D)')
+calculate_percentage(df, new_df, bpd_s_columns_1, bpd_s_columns_05, max_values_bpd_s_1, max_values_bpd_s_05, 'BPD (S)')
+calculate_percentage(df, new_df, bpd_c_columns_1, bpd_c_columns_05, max_values_bpd_c_1, max_values_bpd_c_05, 'BPD (C)')
+calculate_percentage(df, new_df, wcb_d_columns_1, wcb_d_columns_05, max_values_wcb_d_1, max_values_wcb_d_05, 'WCB (D)')
+calculate_percentage(df, new_df, wcb_s_columns_1, wcb_s_columns_05, max_values_wcb_s_1, max_values_wcb_s_05, 'WCB (S)')
+calculate_percentage(df, new_df, wcb_a_columns_1, wcb_a_columns_05, max_values_wcb_a_1, max_values_wcb_a_05, 'WCB (A)')
+calculate_percentage(df, new_df, fb_d_columns_1, fb_d_columns_05, max_values_fb_d_1, max_values_fb_d_05, 'FB (D)')
+calculate_percentage(df, new_df, fb_s_columns_1, fb_s_columns_05, max_values_fb_s_1, max_values_fb_s_05, 'FB (S)')
+calculate_percentage(df, new_df, fb_a_columns_1, fb_a_columns_05, max_values_fb_a_1, max_values_fb_a_05, 'FB (S)')
+calculate_percentage(df, new_df, wb_d_columns_1, wb_d_columns_05, max_values_wb_d_1, max_values_wb_d_05, 'WB (D)')
+calculate_percentage(df, new_df, wb_s_columns_1, wb_s_columns_05, max_values_wb_s_1, max_values_wb_s_05, 'WB (S)')
+calculate_percentage(df, new_df, wb_a_columns_1, wb_a_columns_05, max_values_wb_a_1, max_values_wb_a_05, 'WB (A)')
+calculate_percentage(df, new_df, n_n_fb_columns_1, n_n_fb_columns_05, max_values_n_n_fb_1, max_values_n_n_fb_05, 'N_N FB')
+calculate_percentage(df, new_df, cwb_s_columns_1, cwb_s_columns_05, max_values_cwb_s_1, max_values_cwb_s_05, 'CWB (S)')
+calculate_percentage(df, new_df, cwb_a_columns_1, cwb_a_columns_05, max_values_cwb_a_1, max_values_cwb_a_05, 'CWB (A)')
+calculate_percentage(df, new_df, iwb_d_columns_1, iwb_d_columns_05, max_values_iwb_d_1, max_values_iwb_d_05, 'IWB (D)')
+calculate_percentage(df, new_df, iwb_s_columns_1, iwb_s_columns_05, max_values_iwb_s_1, max_values_iwb_s_05, 'IWB (S)')
+calculate_percentage(df, new_df, iwb_a_columns_1, iwb_a_columns_05, max_values_iwb_a_1, max_values_iwb_a_05, 'IWB (A)')
+calculate_percentage(df, new_df, ifb_d_columns_1, ifb_d_columns_05, max_values_ifb_d_1, max_values_ifb_d_05, 'IFB (D)')
+calculate_percentage(df, new_df, bwm_d_columns_1, bwm_d_columns_05, max_values_bwm_d_1, max_values_bwm_d_05, 'BWM (D)')
+calculate_percentage(df, new_df, bwm_s_columns_1, bwm_s_columns_05, max_values_bwm_s_1, max_values_bwm_s_05, 'BWM (S)')
+calculate_percentage(df, new_df, am_d_columns_1, am_d_columns_05, max_values_am_d_1, max_values_am_d_05, 'AM (D)')
+calculate_percentage(df, new_df, dm_d_columns_1, dm_d_columns_05, max_values_dm_d_1, max_values_dm_d_05, 'DM (D)')
+calculate_percentage(df, new_df, dm_s_columns_1, dm_s_columns_05, max_values_dm_s_1, max_values_dm_s_05, 'DM (S)')
+calculate_percentage(df, new_df, hb_d_columns_1, hb_d_columns_05, max_values_hb_d_1, max_values_hb_d_05, 'HB (D)')
+calculate_percentage(df, new_df, dlp_d_columns_1, dlp_d_columns_05, max_values_dlp_d_1, max_values_dlp_d_05, 'DLP (D)')
+calculate_percentage(df, new_df, dlp_s_columns_1, dlp_s_columns_05, max_values_dlp_s_1, max_values_dlp_s_05, 'DLP (S)')
+calculate_percentage(df, new_df, sv_s_columns_1, sv_s_columns_05, max_values_sv_s_1, max_values_sv_s_05, 'SV (S)')
+calculate_percentage(df, new_df, sv_a_columns_1, sv_a_columns_05, max_values_sv_a_1, max_values_sv_a_05, 'SV (A)')
+calculate_percentage(df, new_df, rp_s_columns_1, rp_s_columns_05, max_values_rp_s_1, max_values_rp_s_05, 'RP (S)')
+calculate_percentage(df, new_df, cm_d_columns_1, cm_d_columns_05, max_values_cm_d_1, max_values_cm_d_05, 'CM (D)')
+calculate_percentage(df, new_df, cm_s_columns_1, cm_s_columns_05, max_values_cm_s_1, max_values_cm_s_05, 'CM (S)')
+calculate_percentage(df, new_df, cm_a_columns_1, cm_a_columns_05, max_values_cm_a_1, max_values_cm_a_05, 'CM (A)')
+calculate_percentage(df, new_df, car_s_columns_1, car_s_columns_05, max_values_car_s_1, max_values_car_s_05, 'CAR (S)')
+calculate_percentage(df, new_df, b2b_s_columns_1, b2b_s_columns_05, max_values_b2b_s_1, max_values_b2b_s_05, 'B2B (S)')
+calculate_percentage(df, new_df, mez_s_columns_1, mez_s_columns_05, max_values_mez_s_1, max_values_mez_s_05, 'MEZ (S)')
+calculate_percentage(df, new_df, mez_a_columns_1, mez_a_columns_05, max_values_mez_a_1, max_values_mez_a_05, 'MEZ (A)')
+calculate_percentage(df, new_df, ap_s_columns_1, ap_s_columns_05, max_values_ap_s_1, max_values_ap_s_05, 'AP (S)')
+calculate_percentage(df, new_df, ap_a_columns_1, ap_a_columns_05, max_values_ap_a_1, max_values_ap_a_05, 'AP (A)')
+calculate_percentage(df, new_df, am_s_columns_1, am_s_columns_05, max_values_am_s_1, max_values_am_s_05, 'AM (S)')
+calculate_percentage(df, new_df, am_a_columns_1, am_a_columns_05, max_values_am_a_1, max_values_am_a_05, 'AM (A)')
+calculate_percentage(df, new_df, ss_a_columns_1, ss_a_columns_05, max_values_ss_a_1, max_values_ss_a_05, 'SS (A)')
+calculate_percentage(df, new_df, tre_a_columns_1, tre_a_columns_05, max_values_tre_a_1, max_values_tre_a_05, 'TRE (A)')
+calculate_percentage(df, new_df, eng_s_columns_1, eng_s_columns_05, max_values_eng_s_1, max_values_eng_s_05, 'ENG (S)')
+calculate_percentage(df, new_df, iw_s_columns_1, iw_s_columns_05, max_values_iw_s_1, max_values_iw_s_05, 'IW (S)')
+calculate_percentage(df, new_df, iw_a_columns_1, iw_a_columns_05, max_values_iw_a_1, max_values_iw_a_05, 'IW (A)')
+calculate_percentage(df, new_df, wp_s_columns_1, wp_s_columns_05, max_values_wp_s_1, max_values_wp_s_05, 'WP (S)')
+calculate_percentage(df, new_df, wp_a_columns_1, wp_a_columns_05, max_values_wp_a_1, max_values_wp_a_05, 'WP (A)')
+calculate_percentage(df, new_df, win_s_columns_1, win_s_columns_05, max_values_win_s_1, max_values_win_s_05, 'WIN (S)')
+calculate_percentage(df, new_df, win_a_columns_1, win_a_columns_05, max_values_win_a_1, max_values_win_a_05, 'WIN (A)')
+calculate_percentage(df, new_df, dwin_d_columns_1, dwin_d_columns_05, max_values_dwin_d_1, max_values_dwin_d_05, 'DWIN (D)')
+calculate_percentage(df, new_df, dwin_s_columns_1, dwin_s_columns_05, max_values_dwin_s_1, max_values_dwin_s_05, 'DWIN (S)')
+calculate_percentage(df, new_df, wm_d_columns_1, wm_d_columns_05, max_values_wm_d_1, max_values_wm_d_05, 'WM (D)')
+calculate_percentage(df, new_df, wm_s_columns_1, wm_s_columns_05, max_values_wm_s_1, max_values_wm_s_05, 'WM (S)')
+calculate_percentage(df, new_df, wm_a_columns_1, wm_a_columns_05, max_values_wm_a_1, max_values_wm_a_05, 'WM (A)')
+calculate_percentage(df, new_df, if_s_columns_1, if_s_columns_05, max_values_if_s_1, max_values_if_s_05, 'IF (S)')
+calculate_percentage(df, new_df, if_a_columns_1, if_a_columns_05, max_values_if_a_1, max_values_if_a_05, 'IF (A)')
+calculate_percentage(df, new_df, rmd_a_columns_1, rmd_a_columns_05, max_values_rmd_a_1, max_values_rmd_a_05, 'RMD (A)')
+calculate_percentage(df, new_df, wtm_s_columns_1, wtm_s_columns_05, max_values_wtm_s_1, max_values_wtm_s_05, 'WTM (S)')
+calculate_percentage(df, new_df, wtm_a_columns_1, wtm_a_columns_05, max_values_wtm_a_1, max_values_wtm_a_05, 'WTM (A)')
+calculate_percentage(df, new_df, pf_d_columns_1, pf_d_columns_05, max_values_pf_d_1, max_values_pf_d_05, 'PF (D)')
+calculate_percentage(df, new_df, pf_s_columns_1, pf_s_columns_05, max_values_pf_s_1, max_values_pf_s_05, 'PF (S)')
+calculate_percentage(df, new_df, pf_a_columns_1, pf_a_columns_05, max_values_pf_a_1, max_values_pf_a_05, 'PF (A)')
+calculate_percentage(df, new_df, dlf_s_columns_1, dlf_s_columns_05, max_values_dlf_s_1, max_values_dlf_s_05, 'DLF (S)')
+calculate_percentage(df, new_df, dlf_a_columns_1, dlf_a_columns_05, max_values_dlf_a_1, max_values_dlf_a_05, 'DLF (A)')
+calculate_percentage(df, new_df, tm_s_columns_1, tm_s_columns_05, max_values_tm_s_1, max_values_tm_s_05, 'TM (S)')
+calculate_percentage(df, new_df, tm_a_columns_1, tm_a_columns_05, max_values_tm_a_1, max_values_tm_a_05, 'TM (A)')
+calculate_percentage(df, new_df, af_a_columns_1, af_a_columns_05, max_values_af_a_1, max_values_af_a_05, 'AF (A)')
+calculate_percentage(df, new_df, poa_s_columns_1, poa_s_columns_05, max_values_poa_s_1, max_values_poa_s_05, 'POA (S)')
+calculate_percentage(df, new_df, f9_s_columns_1, f9_s_columns_05, max_values_f9_s_1, max_values_f9_s_05, 'F9 (S)')
+calculate_percentage(df, new_df, cf_s_columns_1, cf_s_columns_05, max_values_cf_s_1, max_values_cf_s_05, 'CF (S)')
+calculate_percentage(df, new_df, cf_a_columns_1, cf_a_columns_05, max_values_cf_a_1, max_values_cf_a_05, 'CF (A)')
 
 # Printing new DataFrame with calculations.
 #print(new_df)
