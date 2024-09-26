@@ -31,8 +31,29 @@ df = dfs[0]
 # Printing DataFrame (for testing)
 # print(df)
 
-# Defining which columns are taken into account to calculate specific position 
+# Range of columns to check for integers (columns 2 to 48 for squad view)
+cols_to_check = list(range(2, 48)) 
 
+# Function to check if a value is an integer
+def is_integer(val):
+    try:
+        return int(val) == val 
+    except (ValueError, TypeError):
+        return False
+    
+# Function to calculate position suitability percentage
+def calculate_percentage(row, cols_1, cols_05, max_values_1, max_values_05):
+    sum_1 = row[cols_1].sum() # Tier 1 (Multiplier 1.0)
+    sum_05 = row[cols_05].sum() * 0.5  # Tier 6 (Multiplier 0.5)
+    return (sum_1 + sum_05) / (max_values_1 + max_values_05) * 100
+
+# Function to calculate maximum column values (20 as maximum skill)
+def calculate_max_values(column_list_1, column_list_05):
+    max_values_1 = 20 * len(column_list_1) # Tier 1 (Multiplier 1.0)
+    max_values_05 = 20 * 0.5 * len(column_list_05) # Tier 6 (Multiplier 0.5)
+    return max_values_1, max_values_05
+
+# Defining which columns are taken into account to calculate specific position 
 # # Goalkeepers
 
 goalkeeper_d_columns_1 = [4, 13, 15, 16, 28, 39, 44, 47, 48]  # Tier 1 (1.0 Multiplier)
@@ -301,711 +322,337 @@ cf_a_columns_1 = [9, 11, 12, 19, 24, 25, 26, 33, 38, 48]
 cf_a_columns_05  = [5, 21, 22, 23, 29, 34, 36, 37, 41, 46]
 
 
-# Calculating maximum possible value for each column
+# Calculating maximum possible value for each column using function
 
 # # Goalkeepers
-max_values_goalkeeper_d_1 = 20 * len(goalkeeper_d_columns_1)
-max_values_goalkeeper_d_05 = 20 * 0.5 * len(goalkeeper_d_columns_05)
 
-max_values_goalkeeper_libero_d_1 = 20 * len(goalkeeper_libero_d_columns_1)
-max_values_goalkeeper_libero_d_05 = 20 * 0.5 * len(goalkeeper_libero_d_columns_05)
-
-max_values_goalkeeper_libero_s_1 = 20 * len(goalkeeper_libero_s_columns_1)
-max_values_goalkeeper_libero_s_05 = 20 * 0.5 * len(goalkeeper_libero_s_columns_05)
-
-max_values_goalkeeper_libero_a_1 = 20 * len(goalkeeper_libero_a_columns_1)
-max_values_goalkeeper_libero_a_05 = 20 * 0.5 * len(goalkeeper_libero_a_columns_05)
+max_values_goalkeeper_d_1, max_values_goalkeeper_d_05 = calculate_max_values(goalkeeper_d_columns_1, goalkeeper_d_columns_05)
+max_values_goalkeeper_libero_d_1, max_values_goalkeeper_libero_d_05 = calculate_max_values(goalkeeper_libero_d_columns_1, goalkeeper_libero_d_columns_05)
+max_values_goalkeeper_libero_s_1, max_values_goalkeeper_libero_s_05 = calculate_max_values(goalkeeper_libero_s_columns_1, goalkeeper_libero_s_columns_05)
+max_values_goalkeeper_libero_a_1, max_values_goalkeeper_libero_a_05 = calculate_max_values(goalkeeper_libero_a_columns_1, goalkeeper_libero_a_columns_05)
 
 # # Central Defenders
-max_values_libero_d_1 = 20 * len(libero_d_columns_1)
-max_values_libero_d_05 = 20 * 0.5 * len(libero_d_columns_05)
 
-max_values_libero_s_1 = 20 * len(libero_s_columns_1)
-max_values_libero_s_05 = 20 * 0.5 * len(libero_s_columns_05)
+max_values_libero_d_1, max_values_libero_d_05 = calculate_max_values(libero_d_columns_1, libero_d_columns_05)
+max_values_libero_s_1, max_values_libero_s_05 = calculate_max_values(libero_s_columns_1, libero_s_columns_05)
 
-max_values_tcd_d_1 = 20 * len(tcd_s_columns_1)
-max_values_tcd_d_05 = 20 * 0.5 * len(tcd_d_columns_05)
+max_values_tcd_d_1, max_values_tcd_d_05 = calculate_max_values(tcd_d_columns_1, tcd_d_columns_05)
+max_values_tcd_s_1, max_values_tcd_s_05 = calculate_max_values(tcd_s_columns_1, tcd_s_columns_05)
+max_values_tcd_c_1, max_values_tcd_c_05 = calculate_max_values(tcd_c_columns_1, tcd_c_columns_05)
 
-max_values_tcd_s_1 = 20 * len(tcd_s_columns_1)
-max_values_tcd_s_05 = 20 * 0.5 * len(tcd_d_columns_05)
+max_values_cd_d_1, max_values_cd_d_05 = calculate_max_values(cd_d_columns_1, cd_d_columns_05)
+max_values_cd_s_1, max_values_cd_s_05 = calculate_max_values(cd_s_columns_1, cd_s_columns_05)
+max_values_cd_c_1, max_values_cd_c_05 = calculate_max_values(cd_c_columns_1, cd_c_columns_05)
 
-max_values_tcd_c_1 = 20 * len(tcd_c_columns_1)
-max_values_tcd_c_05 = 20 * 0.5 * len(tcd_c_columns_05)
+max_values_bpd_d_1, max_values_bpd_d_05 = calculate_max_values(bpd_d_columns_1, bpd_d_columns_05)
+max_values_bpd_s_1, max_values_bpd_s_05 = calculate_max_values(bpd_s_columns_1, bpd_s_columns_05)
+max_values_bpd_c_1, max_values_bpd_c_05 = calculate_max_values(bpd_c_columns_1, bpd_c_columns_05)
 
-max_values_cd_d_1 = 20 * len(cd_d_columns_1)
-max_values_cd_d_05 = 20 * 0.5 * len(cd_d_columns_05)
-
-max_values_cd_s_1 = 20 * len(cd_s_columns_1)
-max_values_cd_s_05 = 20 * 0.5 * len(cd_s_columns_05)
-
-max_values_cd_c_1 = 20 * len(cd_c_columns_1)
-max_values_cd_c_05 = 20 * 0.5 * len(cd_c_columns_05)
-
-max_values_bpd_d_1 = 20 * len(bpd_d_columns_1)
-max_values_bpd_d_05 = 20 * 0.5 * len(bpd_d_columns_05)
-
-max_values_bpd_s_1 = 20 * len(bpd_s_columns_1)
-max_values_bpd_s_05 = 20 * 0.5 * len(bpd_s_columns_05)
-
-max_values_bpd_c_1 = 20 * len(bpd_c_columns_1)
-max_values_bpd_c_05 = 20 * 0.5 * len(bpd_c_columns_05)
-
-max_values_wcb_d_1 = 20 * len(wcb_d_columns_1)
-max_values_wcb_d_05 = 20 * 0.5 * len(wcb_d_columns_05)
-
-max_values_wcb_s_1 = 20 * len(wcb_s_columns_1)
-max_values_wcb_s_05 = 20 * 0.5 * len(wcb_s_columns_05)
-
-max_values_wcb_a_1 = 20 * len(wcb_a_columns_1)
-max_values_wcb_a_05 = 20 * 0.5 * len(wcb_a_columns_05)
+max_values_wcb_d_1, max_values_wcb_d_05 = calculate_max_values(wcb_d_columns_1, wcb_d_columns_05)
+max_values_wcb_s_1, max_values_wcb_s_05 = calculate_max_values(wcb_s_columns_1, wcb_s_columns_05)
+max_values_wcb_a_1, max_values_wcb_a_05 = calculate_max_values(wcb_a_columns_1, wcb_a_columns_05)
 
 # # Wide Defenders
 
-max_values_fb_d_1 = 20 * len(fb_d_columns_1)
-max_values_fb_d_05 = 20 * 0.5 * len(fb_d_columns_05)
+max_values_fb_d_1, max_values_fb_d_05 = calculate_max_values(fb_d_columns_1, fb_d_columns_05)
+max_values_fb_s_1, max_values_fb_s_05 = calculate_max_values(fb_s_columns_1, fb_s_columns_05)
+max_values_fb_a_1, max_values_fb_a_05 = calculate_max_values(fb_a_columns_1, fb_a_columns_05)
 
-max_values_fb_s_1 = 20 * len(fb_s_columns_1)
-max_values_fb_s_05 = 20 * 0.5 * len(fb_s_columns_05)
+max_values_wb_d_1, max_values_wb_d_05 = calculate_max_values(wb_d_columns_1, wb_d_columns_05)
+max_values_wb_s_1, max_values_wb_s_05 = calculate_max_values(wb_s_columns_1, wb_s_columns_05)
+max_values_wb_a_1, max_values_wb_a_05 = calculate_max_values(wb_a_columns_1, wb_a_columns_05)
 
-max_values_fb_a_1 = 20 * len(fb_a_columns_1)
-max_values_fb_a_05 = 20 * 0.5 * len(fb_a_columns_05)
+max_values_n_n_fb_1, max_values_n_n_fb_05 = calculate_max_values(n_n_fb_columns_1, n_n_fb_columns_05)
 
-max_values_wb_d_1 = 20 * len(wb_d_columns_1)
-max_values_wb_d_05 = 20 * 0.5 * len(wb_d_columns_05)
+max_values_cwb_s_1, max_values_cwb_s_05 = calculate_max_values(cwb_s_columns_1, cwb_s_columns_05)
+max_values_cwb_a_1, max_values_cwb_a_05 = calculate_max_values(cwb_a_columns_1, cwb_a_columns_05)
 
-max_values_wb_s_1 = 20 * len(wb_s_columns_1)
-max_values_wb_s_05 = 20 * 0.5 * len(wb_s_columns_05)
+max_values_iwb_d_1, max_values_iwb_d_05 = calculate_max_values(iwb_d_columns_1, iwb_d_columns_05)
+max_values_iwb_s_1, max_values_iwb_s_05 = calculate_max_values(iwb_s_columns_1, iwb_s_columns_05)
+max_values_iwb_a_1, max_values_iwb_a_05 = calculate_max_values(iwb_a_columns_1, iwb_a_columns_05)
 
-max_values_wb_a_1 = 20 * len(wb_a_columns_1)
-max_values_wb_a_05 = 20 * 0.5 * len(wb_a_columns_05)
-
-max_values_n_n_fb_1 = 20 * len(n_n_fb_columns_1)
-max_values_n_n_fb_05 = 20 * 0.5 * len(n_n_fb_columns_05)
-
-max_values_cwb_s_1 = 20 * len(cwb_s_columns_1)
-max_values_cwb_s_05 = 20 * 0.5 * len(cwb_s_columns_05)
-
-max_values_cwb_a_1 = 20 * len(cwb_a_columns_1)
-max_values_cwb_a_05 = 20 * 0.5 * len(cwb_a_columns_05)
-
-max_values_iwb_d_1 = 20 * len(iwb_d_columns_1)
-max_values_iwb_d_05 = 20 * 0.5 * len(iwb_d_columns_05)
-
-max_values_iwb_s_1 = 20 * len(iwb_s_columns_1)
-max_values_iwb_s_05 = 20 * 0.5 * len(iwb_s_columns_05)
-
-max_values_iwb_a_1 = 20 * len(iwb_a_columns_1)
-max_values_iwb_a_05 = 20 * 0.5 * len(iwb_a_columns_05)
-
-max_values_ifb_d_1 = 20 * len(ifb_d_columns_1)
-max_values_ifb_d_05 = 20 * 0.5 * len(ifb_d_columns_05)
+max_values_ifb_d_1, max_values_ifb_d_05 = calculate_max_values(ifb_d_columns_1, ifb_d_columns_05)
 
 # # Midfielders
 
-max_values_bwm_d_1 = 20 * len(bwm_d_columns_1)
-max_values_bwm_d_05 = 20 * 0.5 * len(bwm_d_columns_05)
+max_values_bwm_d_1, max_values_bwm_d_05 = calculate_max_values(bwm_d_columns_1, bwm_d_columns_05)
+max_values_bwm_s_1, max_values_bwm_s_05 = calculate_max_values(bwm_s_columns_1, bwm_s_columns_05)
 
-max_values_bwm_s_1 = 20 * len(bwm_s_columns_1)
-max_values_bwm_s_05 = 20 * 0.5 * len(bwm_s_columns_05)
+max_values_am_d_1, max_values_am_d_05 = calculate_max_values(am_d_columns_1, am_d_columns_05)
 
-max_values_am_d_1 = 20 * len(am_d_columns_1)
-max_values_am_d_05 = 20 * 0.5 * len(am_d_columns_05)
+max_values_dm_d_1, max_values_dm_d_05 = calculate_max_values(dm_d_columns_1, dm_d_columns_05)
+max_values_dm_s_1, max_values_dm_s_05 = calculate_max_values(dm_s_columns_1, dm_s_columns_05)
 
-max_values_dm_d_1 = 20 * len(dm_d_columns_1)
-max_values_dm_d_05 = 20 * 0.5 * len(dm_d_columns_05)
+max_values_hb_d_1, max_values_hb_d_05 = calculate_max_values(hb_d_columns_1, hb_d_columns_05)
 
-max_values_dm_s_1 = 20 * len(dm_s_columns_1)
-max_values_dm_s_05 = 20 * 0.5 * len(dm_s_columns_05)
+max_values_dlp_d_1, max_values_dlp_d_05 = calculate_max_values(dlp_d_columns_1, dlp_d_columns_05)
+max_values_dlp_s_1, max_values_dlp_s_05 = calculate_max_values(dlp_s_columns_1, dlp_s_columns_05)
 
-max_values_hb_d_1 = 20 * len(hb_d_columns_1)
-max_values_hb_d_05 = 20 * 0.5 * len(hb_d_columns_05)
+max_values_sv_s_1, max_values_sv_s_05 = calculate_max_values(sv_s_columns_1, sv_s_columns_05)
+max_values_sv_a_1, max_values_sv_a_05 = calculate_max_values(sv_a_columns_1, sv_a_columns_05)
 
-max_values_dlp_d_1 = 20 * len(dlp_d_columns_1)
-max_values_dlp_d_05 = 20 * 0.5 * len(dlp_d_columns_05)
+max_values_rp_s_1, max_values_rp_s_05 = calculate_max_values(rp_s_columns_1, rp_s_columns_05)
 
-max_values_dlp_s_1 = 20 * len(dlp_s_columns_1)
-max_values_dlp_s_05 = 20 * 0.5 * len(dlp_s_columns_05)
+max_values_reg_s_1, max_values_reg_s_05 = calculate_max_values(reg_s_columns_1, reg_s_columns_05)
 
-max_values_sv_s_1 = 20 * len(sv_s_columns_1)
-max_values_sv_s_05 = 20 * 0.5 * len(sv_s_columns_05)
+max_values_cm_d_1, max_values_cm_d_05 = calculate_max_values(cm_d_columns_1, cm_d_columns_05)
+max_values_cm_s_1, max_values_cm_s_05 = calculate_max_values(cm_s_columns_1, cm_s_columns_05)
+max_values_cm_a_1, max_values_cm_a_05 = calculate_max_values(cm_a_columns_1, cm_a_columns_05)
 
-max_values_sv_a_1 = 20 * len(sv_a_columns_1)
-max_values_sv_a_05 = 20 * 0.5 * len(sv_a_columns_05)
+max_values_car_s_1, max_values_car_s_05 = calculate_max_values(car_s_columns_1, car_s_columns_05)
 
-max_values_rp_s_1 = 20 * len(rp_s_columns_1)
-max_values_rp_s_05 = 20 * 0.5 * len(rp_s_columns_05)
+max_values_b2b_s_1, max_values_b2b_s_05 = calculate_max_values(b2b_s_columns_1, b2b_s_columns_05)
 
-max_values_reg_s_1 = 20 * len(reg_s_columns_1)
-max_values_reg_s_05 = 20 * 0.5 * len(reg_s_columns_05)
+max_values_mez_s_1, max_values_mez_s_05 = calculate_max_values(mez_s_columns_1, mez_s_columns_05)
+max_values_mez_a_1, max_values_mez_a_05 = calculate_max_values(mez_a_columns_1, mez_a_columns_05)
 
-max_values_cm_d_1 = 20 * len(cm_d_columns_1)
-max_values_cm_d_05 = 20 * 0.5 * len(cm_d_columns_05)
-
-max_values_cm_s_1 = 20 * len(cm_s_columns_1)
-max_values_cm_s_05 = 20 * 0.5 * len(cm_s_columns_05)
-
-max_values_cm_a_1 = 20 * len(cm_a_columns_1)
-max_values_cm_a_05 = 20 * 0.5 * len(cm_a_columns_05)
-
-max_values_car_s_1 = 20 * len(car_s_columns_1)
-max_values_car_s_05 = 20 * 0.5 * len(car_s_columns_05)
-
-max_values_b2b_s_1 = 20 * len(b2b_s_columns_1)
-max_values_b2b_s_05 = 20 * 0.5 * len(b2b_s_columns_05)
-
-max_values_mez_s_1 = 20 * len(mez_s_columns_1)
-max_values_mez_s_05 = 20 * 0.5 * len(mez_s_columns_05)
-
-max_values_mez_a_1 = 20 * len(mez_a_columns_1)
-max_values_mez_a_05 = 20 * 0.5 * len(mez_a_columns_05)
-
-max_values_ap_s_1 = 20 * len(ap_s_columns_1)
-max_values_ap_s_05 = 20 * 0.5 * len(ap_s_columns_05)
-
-max_values_ap_a_1 = 20 * len(ap_a_columns_1)
-max_values_ap_a_05 = 20 * 0.5 * len(ap_a_columns_05)
+max_values_ap_s_1, max_values_ap_s_05 = calculate_max_values(ap_s_columns_1, ap_s_columns_05)
+max_values_ap_a_1, max_values_ap_a_05 = calculate_max_values(ap_a_columns_1, ap_a_columns_05)
 
 # # Wide Midfielders
 
-max_values_am_s_1 = 20 * len(am_s_columns_1)
-max_values_am_s_05 = 20 * 0.5 * len(am_s_columns_05)
- 
-max_values_am_a_1 = 20 * len(am_a_columns_1)
-max_values_am_a_05 = 20 * 0.5 * len(am_a_columns_05)
- 
-max_values_ss_a_1 = 20 * len(ss_a_columns_1)
-max_values_ss_a_05 = 20 * 0.5 * len(ss_a_columns_05)
- 
-max_values_tre_a_1 = 20 * len(tre_a_columns_1)
-max_values_tre_a_05 = 20 * 0.5 * len(tre_a_columns_05)
- 
-max_values_eng_s_1 = 20 * len(eng_s_columns_1)
-max_values_eng_s_05 = 20 * 0.5 * len(eng_s_columns_05)
- 
-max_values_iw_s_1 = 20 * len(iw_s_columns_1)
-max_values_iw_s_05 = 20 * 0.5 * len(iw_s_columns_05)
- 
-max_values_iw_a_1 = 20 * len(iw_a_columns_1)
-max_values_iw_a_05 = 20 * 0.5 * len(iw_a_columns_05)
- 
-max_values_wp_s_1 = 20 * len(wp_s_columns_1)
-max_values_wp_s_05 = 20 * 0.5 * len(wp_s_columns_05)
- 
-max_values_wp_a_1 = 20 * len(wp_a_columns_1)
-max_values_wp_a_05 = 20 * 0.5 * len(wp_a_columns_05)
- 
-max_values_win_s_1 = 20 * len(win_s_columns_1)
-max_values_win_s_05 = 20 * 0.5 * len(win_s_columns_05)
- 
-max_values_win_a_1 = 20 * len(win_a_columns_1)
-max_values_win_a_05 = 20 * 0.5 * len(win_a_columns_05)
- 
-max_values_dwin_d_1 = 20 * len(dwin_d_columns_1)
-max_values_dwin_d_05 = 20 * 0.5 * len(dwin_d_columns_05)
- 
-max_values_dwin_s_1 = 20 * len(dwin_s_columns_1)
-max_values_dwin_s_05 = 20 * 0.5 * len(dwin_s_columns_05)
- 
-max_values_wm_d_1 = 20 * len(wm_d_columns_1)
-max_values_wm_d_05 = 20 * 0.5 * len(wm_d_columns_05)
- 
-max_values_wm_s_1 = 20 * len(wm_s_columns_1)
-max_values_wm_s_05 = 20 * 0.5 * len(wm_s_columns_05)
- 
-max_values_wm_a_1 = 20 * len(wm_a_columns_1)
-max_values_wm_a_05 = 20 * 0.5 * len(wm_a_columns_05)
- 
-max_values_if_s_1 = 20 * len(if_s_columns_1)
-max_values_if_s_05 = 20 * 0.5 * len(if_s_columns_05)
- 
-max_values_if_a_1 = 20 * len(if_a_columns_1)
-max_values_if_a_05 = 20 * 0.5 * len(if_a_columns_05)
- 
-max_values_rmd_a_1 = 20 * len(rmd_a_columns_1)
-max_values_rmd_a_05 = 20 * 0.5 * len(rmd_a_columns_05)
- 
-max_values_wtm_s_1 = 20 * len(wtm_s_columns_1)
-max_values_wtm_s_05 = 20 * 0.5 * len(wtm_s_columns_05)
- 
-max_values_wtm_a_1 = 20 * len(wtm_a_columns_1)
-max_values_wtm_a_05 = 20 * 0.5 * len(wtm_a_columns_05)
+max_values_am_s_1, max_values_am_s_05 = calculate_max_values(am_s_columns_1, am_s_columns_05)
+max_values_am_a_1, max_values_am_a_05 = calculate_max_values(am_a_columns_1, am_a_columns_05)
+
+max_values_ss_a_1, max_values_ss_a_05 = calculate_max_values(ss_a_columns_1, ss_a_columns_05)
+
+max_values_tre_a_1, max_values_tre_a_05 = calculate_max_values(tre_a_columns_1, tre_a_columns_05)
+
+max_values_eng_s_1, max_values_eng_s_05 = calculate_max_values(eng_s_columns_1, eng_s_columns_05)
+
+max_values_iw_s_1, max_values_iw_s_05 = calculate_max_values(iw_s_columns_1, iw_s_columns_05)
+max_values_iw_a_1, max_values_iw_a_05 = calculate_max_values(iw_a_columns_1, iw_a_columns_05)
+
+max_values_wp_s_1, max_values_wp_s_05 = calculate_max_values(wp_s_columns_1, wp_s_columns_05)
+max_values_wp_a_1, max_values_wp_a_05 = calculate_max_values(wp_a_columns_1, wp_a_columns_05)
+
+max_values_win_s_1, max_values_win_s_05 = calculate_max_values(win_s_columns_1, win_s_columns_05)
+max_values_win_a_1, max_values_win_a_05 = calculate_max_values(win_a_columns_1, win_a_columns_05)
+
+max_values_dwin_d_1, max_values_dwin_d_05 = calculate_max_values(dwin_d_columns_1, dwin_d_columns_05)
+max_values_dwin_s_1, max_values_dwin_s_05 = calculate_max_values(dwin_s_columns_1, dwin_s_columns_05)
+
+max_values_wm_d_1, max_values_wm_d_05 = calculate_max_values(wm_d_columns_1, wm_d_columns_05)
+max_values_wm_s_1, max_values_wm_s_05 = calculate_max_values(wm_s_columns_1, wm_s_columns_05)
+max_values_wm_a_1, max_values_wm_a_05 = calculate_max_values(wm_a_columns_1, wm_a_columns_05)
+
+max_values_if_s_1, max_values_if_s_05 = calculate_max_values(if_s_columns_1, if_s_columns_05)
+max_values_if_a_1, max_values_if_a_05 = calculate_max_values(if_a_columns_1, if_a_columns_05)
+
+max_values_rmd_a_1, max_values_rmd_a_05 = calculate_max_values(rmd_a_columns_1, rmd_a_columns_05)
+
+max_values_wtm_s_1, max_values_wtm_s_05 = calculate_max_values(wtm_s_columns_1, wtm_s_columns_05)
+max_values_wtm_a_1, max_values_wtm_a_05 = calculate_max_values(wtm_a_columns_1, wtm_a_columns_05)
 
 # # Forwards
  
-max_values_pf_d_1 = 20 * len(pf_d_columns_1)
-max_values_pf_d_05 = 20 * 0.5 * len(pf_d_columns_05)
- 
-max_values_pf_s_1 = 20 * len(pf_s_columns_1)
-max_values_pf_s_05 = 20 * 0.5 * len(pf_s_columns_05)
- 
-max_values_pf_a_1 = 20 * len(pf_a_columns_1)
-max_values_pf_a_05 = 20 * 0.5 * len(pf_a_columns_05)
- 
-max_values_dlf_s_1 = 20 * len(dlf_s_columns_1)
-max_values_dlf_s_05 = 20 * 0.5 * len(dlf_s_columns_05)
- 
-max_values_dlf_a_1 = 20 * len(dlf_a_columns_1)
-max_values_dlf_a_05 = 20 * 0.5 * len(dlf_a_columns_05)
- 
-max_values_tm_s_1 = 20 * len(tm_s_columns_1)
-max_values_tm_s_05 = 20 * 0.5 * len(tm_s_columns_05)
- 
-max_values_tm_a_1 = 20 * len(tm_a_columns_1)
-max_values_tm_a_05 = 20 * 0.5 * len(tm_a_columns_05)
- 
-max_values_af_a_1 = 20 * len(af_a_columns_1)
-max_values_af_a_05 = 20 * 0.5 * len(af_a_columns_05)
- 
-max_values_poa_s_1 = 20 * len(poa_s_columns_1)
-max_values_poa_s_05 = 20 * 0.5 * len(poa_s_columns_05)
- 
-max_values_f9_s_1 = 20 * len(f9_s_columns_1)
-max_values_f9_s_05 = 20 * 0.5 * len(f9_s_columns_05)
- 
-max_values_cf_s_1 = 20 * len(cf_s_columns_1)
-max_values_cf_s_05 = 20 * 0.5 * len(cf_s_columns_05)
- 
-max_values_cf_a_1 = 20 * len(cf_a_columns_1)
-max_values_cf_a_05 = 20 * 0.5 * len(cf_a_columns_05)
+max_values_pf_d_1, max_values_pf_d_05 = calculate_max_values(pf_d_columns_1, pf_d_columns_05)
+max_values_pf_s_1, max_values_pf_s_05 = calculate_max_values(pf_s_columns_1, pf_s_columns_05)
+max_values_pf_a_1, max_values_pf_a_05 = calculate_max_values(pf_a_columns_1, pf_a_columns_05)
 
+max_values_dlf_s_1, max_values_dlf_s_05 = calculate_max_values(dlf_s_columns_1, dlf_s_columns_05)
+max_values_dlf_a_1, max_values_dlf_a_05 = calculate_max_values(dlf_a_columns_1, dlf_a_columns_05)
+
+max_values_tm_s_1, max_values_tm_s_05 = calculate_max_values(tm_s_columns_1, tm_s_columns_05)
+max_values_tm_a_1, max_values_tm_a_05 = calculate_max_values(tm_a_columns_1, tm_a_columns_05)
+
+max_values_af_a_1, max_values_af_a_05 = calculate_max_values(af_a_columns_1, af_a_columns_05)
+
+max_values_poa_s_1, max_values_poa_s_05 = calculate_max_values(poa_s_columns_1, poa_s_columns_05)
+
+max_values_f9_s_1, max_values_f9_s_05 = calculate_max_values(f9_s_columns_1, f9_s_columns_05)
+
+max_values_cf_s_1, max_values_cf_s_05 = calculate_max_values(cf_s_columns_1, cf_s_columns_05)
+max_values_cf_a_1, max_values_cf_a_05 = calculate_max_values(cf_a_columns_1, cf_a_columns_05)
 
 # Copying first two columns to new DataFrame
 new_df = df.iloc[: , [0, 1]].copy() 
 
-
-# Calculating "Goalkeeper (D)" percentage value
-goalkeeper_d_1_sum = df.iloc[:, goalkeeper_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-goalkeeper_d_05_sum = df.iloc[:, goalkeeper_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['Goalkeeper (D)'] = (goalkeeper_d_1_sum + goalkeeper_d_05_sum) / (max_values_goalkeeper_d_1 + max_values_goalkeeper_d_05) * 100  # Percentage calculation
-
-
-# Calculating "Goalkeeper-libero (D)" percentage value
-goalkeeper_libero_d_1_sum = df.iloc[:, goalkeeper_libero_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-goalkeeper_libero_d_05_sum = df.iloc[:, goalkeeper_libero_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['Goalkeeper-libero (D)'] = (goalkeeper_libero_d_1_sum + goalkeeper_libero_d_05_sum) / (max_values_goalkeeper_libero_d_1 + max_values_goalkeeper_libero_d_05) * 100  # Percentage calculation
-
-
-# Calculating "Goalkeeper-libero (S)" percentage value
-goalkeeper_libero_s_1_sum = df.iloc[:, goalkeeper_libero_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-goalkeeper_libero_s_05_sum = df.iloc[:, goalkeeper_libero_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['Goalkeeper-libero (S)'] = (goalkeeper_libero_s_1_sum + goalkeeper_libero_s_05_sum) / (max_values_goalkeeper_libero_s_1 + max_values_goalkeeper_libero_s_05) * 100  # Percentage calculation
-
-
-# Calculating "Goalkeeper-libero (A)" percentage value
-goalkeeper_libero_a_1_sum = df.iloc[:, goalkeeper_libero_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-goalkeeper_libero_a_05_sum = df.iloc[:, goalkeeper_libero_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['Goalkeeper-libero (A)'] = (goalkeeper_libero_a_1_sum + goalkeeper_libero_a_05_sum) / (max_values_goalkeeper_libero_a_1 + max_values_goalkeeper_libero_a_05) * 100  # Percentage calculation
-
-# Calculating "Libero (D)" percentage value
-libero_d_1_sum = df.iloc[:, libero_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-libero_d_05_sum = df.iloc[:, libero_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['Libero (D)'] = (libero_d_1_sum + libero_d_05_sum) / (max_values_libero_d_1 + max_values_libero_d_05) * 100  # Percentage calculation
-
-# Calculating "Libero (S)" percentage value
-libero_s_1_sum = df.iloc[:, libero_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-libero_s_05_sum = df.iloc[:, libero_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['Libero (S)'] = (libero_s_1_sum + libero_s_05_sum) / (max_values_libero_s_1 + max_values_libero_s_05) * 100  # Percentage calculation
-
-# Calculating "TCD (D)" percentage value
-tcd_d_1_sum = df.iloc[:, tcd_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-tcd_d_05_sum = df.iloc[:, tcd_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['TCD (D)'] = (tcd_d_1_sum + tcd_d_05_sum) / (max_values_tcd_d_1 + max_values_tcd_d_05) * 100  # Percentage calculation
-
-# Calculating "TCD (S)" percentage value
-tcd_s_1_sum = df.iloc[:, tcd_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-tcd_s_05_sum = df.iloc[:, tcd_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['TCD (S)'] = (tcd_s_1_sum + tcd_s_05_sum) / (max_values_tcd_s_1 + max_values_tcd_s_05) * 100  # Percentage calculation
-
-# Calculating "TCD (C)" percentage value
-tcd_c_1_sum = df.iloc[:, tcd_c_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-tcd_c_05_sum = df.iloc[:, tcd_c_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['TCD (C)'] = (tcd_c_1_sum + tcd_c_05_sum) / (max_values_tcd_c_1 + max_values_tcd_c_05) * 100  # Percentage calculation
-
-# Calculating "CD (D)" percentage value
-cd_d_1_sum = df.iloc[:, cd_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-cd_d_05_sum = df.iloc[:, cd_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['CD (D)'] = (cd_d_1_sum + cd_d_05_sum) / (max_values_cd_d_1 + max_values_cd_d_05) * 100  # Percentage calculation
-
-# Calculating "CD (S)" percentage value
-cd_s_1_sum = df.iloc[:, cd_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-cd_s_05_sum = df.iloc[:, cd_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['CD (S)'] = (cd_s_1_sum + cd_s_05_sum) / (max_values_cd_s_1 + max_values_cd_s_05) * 100  # Percentage calculation
-
-# Calculating "CD (C)" percentage value
-cd_c_1_sum = df.iloc[:, cd_c_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-cd_c_05_sum = df.iloc[:, cd_c_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['CD (C)'] = (cd_c_1_sum + cd_c_05_sum) / (max_values_cd_c_1 + max_values_cd_c_05) * 100  # Percentage calculation
-
-# Calculating "BPD (D)" percentage value
-bpd_d_1_sum = df.iloc[:, bpd_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-bpd_d_05_sum = df.iloc[:, bpd_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['BPD (D)'] = (bpd_d_1_sum + bpd_d_05_sum) / (max_values_bpd_d_1 + max_values_bpd_d_05) * 100  # Percentage calculation
-
-# Calculating "BPD (S)" percentage value
-bpd_s_1_sum = df.iloc[:, bpd_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-bpd_s_05_sum = df.iloc[:, bpd_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['BPD (S)'] = (bpd_s_1_sum + bpd_s_05_sum) / (max_values_bpd_s_1 + max_values_bpd_s_05) * 100  # Percentage calculation
-
-# Calculating "BPD (C)" percentage value
-bpd_c_1_sum = df.iloc[:, bpd_c_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-bpd_c_05_sum = df.iloc[:, bpd_c_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['BPD (C)'] = (bpd_c_1_sum + bpd_c_05_sum) / (max_values_bpd_c_1 + max_values_bpd_c_05) * 100  # Percentage calculation
-
-# Calculating "WCB (D)" percentage value
-wcb_d_1_sum = df.iloc[:, wcb_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-wcb_d_05_sum = df.iloc[:, wcb_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['WCB (D)'] = (wcb_d_1_sum + wcb_d_05_sum) / (max_values_wcb_d_1 + max_values_wcb_d_05) * 100  # Percentage calculation
-
-# Calculating "WCB (S)" percentage value
-wcb_s_1_sum = df.iloc[:, wcb_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-wcb_s_05_sum = df.iloc[:, wcb_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['WCB (S)'] = (wcb_s_1_sum + wcb_s_05_sum) / (max_values_wcb_s_1 + max_values_wcb_s_05) * 100  # Percentage calculation
-
-# Calculating "WCB (A)" percentage value
-wcb_a_1_sum = df.iloc[:, wcb_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-wcb_a_05_sum = df.iloc[:, wcb_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['WCB (A)'] = (wcb_a_1_sum + wcb_a_05_sum) / (max_values_wcb_a_1 + max_values_wcb_a_05) * 100  # Percentage calculation
-
-# Calculating "FB (D)" percentage value
-fb_d_1_sum = df.iloc[:, fb_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-fb_d_05_sum = df.iloc[:, fb_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['FB (D)'] = (fb_d_1_sum + fb_d_05_sum) / (max_values_fb_d_1 + max_values_fb_d_05) * 100  # Percentage calculation
-
-# Calculating "FB (S)" percentage value
-fb_s_1_sum = df.iloc[:, fb_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-fb_s_05_sum = df.iloc[:, fb_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['FB (S)'] = (fb_s_1_sum + fb_s_05_sum) / (max_values_fb_s_1 + max_values_fb_s_05) * 100  # Percentage calculation
-
-# Calculating "FB (A)" percentage value
-fb_a_1_sum = df.iloc[:, fb_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-fb_a_05_sum = df.iloc[:, fb_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['FB (A)'] = (fb_a_1_sum + fb_a_05_sum) / (max_values_fb_a_1 + max_values_fb_a_05) * 100  # Percentage calculation
-
-# Calculating "WB (D)" percentage value
-wb_d_1_sum = df.iloc[:, wb_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-wb_d_05_sum = df.iloc[:, wb_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['WB (D)'] = (wb_d_1_sum + wb_d_05_sum) / (max_values_wb_d_1 + max_values_wb_d_05) * 100  # Percentage calculation
-
-# Calculating "WB (S)" percentage value
-wb_s_1_sum = df.iloc[:, wb_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-wb_s_05_sum = df.iloc[:, wb_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['WB (S)'] = (wb_s_1_sum + wb_s_05_sum) / (max_values_wb_s_1 + max_values_wb_s_05) * 100  # Percentage calculation
-
-# Calculating "WB (A)" percentage value
-wb_a_1_sum = df.iloc[:, wb_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-wb_a_05_sum = df.iloc[:, wb_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['WB (A)'] = (wb_a_1_sum + wb_a_05_sum) / (max_values_wb_a_1 + max_values_wb_a_05) * 100  # Percentage calculation
-
-# Calculating "N-N FB" percentage value
-n_n_fb_1_sum = df.iloc[:, n_n_fb_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-n_n_fb_05_sum = df.iloc[:, n_n_fb_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['N_N FB'] = (n_n_fb_1_sum + n_n_fb_05_sum) / (max_values_n_n_fb_1 + max_values_n_n_fb_05) * 100  # Percentage calculation
-
-# Calculating "CWB (S)" percentage value
-cwb_s_1_sum = df.iloc[:, cwb_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-cwb_s_05_sum = df.iloc[:, cwb_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['CWB (S)'] = (cwb_s_1_sum + cwb_s_05_sum) / (max_values_cwb_s_1 + max_values_cwb_s_05) * 100  # Percentage calculation
-
-# Calculating "CWB (A)" percentage value
-cwb_a_1_sum = df.iloc[:, cwb_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-cwb_a_05_sum = df.iloc[:, cwb_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['CWB (A)'] = (cwb_a_1_sum + cwb_a_05_sum) / (max_values_cwb_a_1 + max_values_cwb_a_05) * 100  # Percentage calculation
-
-# Calculating "IWB (D)" percentage value
-iwb_d_1_sum = df.iloc[:, iwb_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-iwb_d_05_sum = df.iloc[:, iwb_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['IWB (D)'] = (iwb_d_1_sum + iwb_d_05_sum) / (max_values_iwb_d_1 + max_values_iwb_d_05) * 100  # Percentage calculation
-
-# Calculating "IWB (S)" percentage value
-iwb_s_1_sum = df.iloc[:, iwb_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-iwb_s_05_sum = df.iloc[:, iwb_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['IWB (S)'] = (iwb_s_1_sum + iwb_s_05_sum) / (max_values_iwb_s_1 + max_values_iwb_s_05) * 100  # Percentage calculation
-
-# Calculating "IWB (A)" percentage value
-iwb_a_1_sum = df.iloc[:, iwb_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-iwb_a_05_sum = df.iloc[:, iwb_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['IWB (A)'] = (iwb_a_1_sum + iwb_a_05_sum) / (max_values_iwb_a_1 + max_values_iwb_a_05) * 100  # Percentage calculation
-
-# Calculating "IFB (D)" percentage value
-ifb_d_1_sum = df.iloc[:, ifb_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-ifb_d_05_sum = df.iloc[:, ifb_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['IFB (D)'] = (ifb_d_1_sum + ifb_d_05_sum) / (max_values_ifb_d_1 + max_values_ifb_d_05) * 100  # Percentage calculation
-
-# Calculating "BWM (D)" percentage value
-bwm_d_1_sum = df.iloc[:, bwm_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-bwm_d_05_sum = df.iloc[:, bwm_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['BWM (D)'] = (bwm_d_1_sum + bwm_d_05_sum) / (max_values_bwm_d_1 + max_values_bwm_d_05) * 100  # Percentage calculation
-
-# Calculating "BWM (S)" percentage value
-bwm_s_1_sum = df.iloc[:, bwm_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-bwm_s_05_sum = df.iloc[:, bwm_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['BWM (S)'] = (bwm_s_1_sum + bwm_s_05_sum) / (max_values_bwm_s_1 + max_values_bwm_s_05) * 100  # Percentage calculation
-
-# Calculating "AM (D)" percentage value
-am_d_1_sum = df.iloc[:, am_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-am_d_05_sum = df.iloc[:, am_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['AM (D)'] = (am_d_1_sum + am_d_05_sum) / (max_values_am_d_1 + max_values_am_d_05) * 100  # Percentage calculation
-
-# Calculating "DM (D)" percentage value
-dm_d_1_sum = df.iloc[:, dm_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-dm_d_05_sum = df.iloc[:, dm_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['DM (D)'] = (dm_d_1_sum + dm_d_05_sum) / (max_values_dm_d_1 + max_values_dm_d_05) * 100  # Percentage calculation
-
-# Calculating "DM (S)" percentage value
-dm_s_1_sum = df.iloc[:, dm_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-dm_s_05_sum = df.iloc[:, dm_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['DM (S)'] = (dm_s_1_sum + dm_s_05_sum) / (max_values_dm_s_1 + max_values_dm_s_05) * 100  # Percentage calculation
-
-# Calculating "HB (D)" percentage value
-hb_d_1_sum = df.iloc[:, hb_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-hb_d_05_sum = df.iloc[:, hb_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['HB (D)'] = (hb_d_1_sum + hb_d_05_sum) / (max_values_hb_d_1 + max_values_hb_d_05) * 100  # Percentage calculation
-
-# Calculating "DLP (D)" percentage value
-dlp_d_1_sum = df.iloc[:, dlp_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-dlp_d_05_sum = df.iloc[:, dlp_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['DLP (D)'] = (dlp_d_1_sum + dlp_d_05_sum) / (max_values_dlp_d_1 + max_values_dlp_d_05) * 100  # Percentage calculation
-
-# Calculating "DLP (S)" percentage value
-dlp_s_1_sum = df.iloc[:, dlp_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-dlp_s_05_sum = df.iloc[:, dlp_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['DLP (S)'] = (dlp_s_1_sum + dlp_s_05_sum) / (max_values_dlp_s_1 + max_values_dlp_s_05) * 100  # Percentage calculation
-
-# Calculating "SV (S)" percentage value
-sv_s_1_sum = df.iloc[:, sv_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-sv_s_05_sum = df.iloc[:, sv_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['SV (S)'] = (sv_s_1_sum + sv_s_05_sum) / (max_values_sv_s_1 + max_values_sv_s_05) * 100  # Percentage calculation
-
-# Calculating "SV (A)" percentage value
-sv_a_1_sum = df.iloc[:, sv_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-sv_a_05_sum = df.iloc[:, sv_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['SV (A)'] = (sv_a_1_sum + sv_a_05_sum) / (max_values_sv_a_1 + max_values_sv_a_05) * 100  # Percentage calculation
-
-# Calculating "RP (S)" percentage value
-rp_s_1_sum = df.iloc[:, rp_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-rp_s_05_sum = df.iloc[:, rp_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['RP (S)'] = (rp_s_1_sum + rp_s_05_sum) / (max_values_rp_s_1 + max_values_rp_s_05) * 100  # Percentage calculation
-
-# Calculating "REG (S)" percentage value
-reg_s_1_sum = df.iloc[:, reg_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-reg_s_05_sum = df.iloc[:, reg_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['REG (S)'] = (reg_s_1_sum + reg_s_05_sum) / (max_values_reg_s_1 + max_values_reg_s_05) * 100  # Percentage calculation
-
-# Calculating "CM (D)" percentage value
-cm_d_1_sum = df.iloc[:, cm_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-cm_d_05_sum = df.iloc[:, cm_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['CM (D)'] = (cm_d_1_sum + cm_d_05_sum) / (max_values_cm_d_1 + max_values_cm_d_05) * 100  # Percentage calculation
-
-# Calculating "CM (S)" percentage value
-cm_s_1_sum = df.iloc[:, cm_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-cm_s_05_sum = df.iloc[:, cm_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['CM (S)'] = (cm_s_1_sum + cm_s_05_sum) / (max_values_cm_s_1 + max_values_cm_s_05) * 100  # Percentage calculation
-
-# Calculating "CM (A)" percentage value
-cm_a_1_sum = df.iloc[:, cm_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-cm_a_05_sum = df.iloc[:, cm_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['CM (A)'] = (cm_a_1_sum + cm_a_05_sum) / (max_values_cm_a_1 + max_values_cm_a_05) * 100  # Percentage calculation
-
-# Calculating "CAR (S)" percentage value
-car_s_1_sum = df.iloc[:, car_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-car_s_05_sum = df.iloc[:, car_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['CAR (S)'] = (car_s_1_sum + car_s_05_sum) / (max_values_car_s_1 + max_values_car_s_05) * 100  # Percentage calculation
-
-# Calculating "B2B (S)" percentage value
-b2b_s_1_sum = df.iloc[:, b2b_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-b2b_s_05_sum = df.iloc[:, b2b_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['B2B (S)'] = (b2b_s_1_sum + b2b_s_05_sum) / (max_values_b2b_s_1 + max_values_b2b_s_05) * 100  # Percentage calculation
-
-# Calculating "MEZ (S)" percentage value
-mez_s_1_sum = df.iloc[:, mez_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-mez_s_05_sum = df.iloc[:, mez_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['MEZ (S)'] = (mez_s_1_sum + mez_s_05_sum) / (max_values_mez_s_1 + max_values_mez_s_05) * 100  # Percentage calculation
-
-# Calculating "MEZ (A)" percentage value
-mez_a_1_sum = df.iloc[:, mez_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-mez_a_05_sum = df.iloc[:, mez_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['MEZ (A)'] = (mez_a_1_sum + mez_a_05_sum) / (max_values_mez_a_1 + max_values_mez_a_05) * 100  # Percentage calculation
-
-# Calculating "AP (S)" percentage value
-ap_s_1_sum = df.iloc[:, ap_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-ap_s_05_sum = df.iloc[:, ap_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['AP (S)'] = (ap_s_1_sum + ap_s_05_sum) / (max_values_ap_s_1 + max_values_ap_s_05) * 100  # Percentage calculation
-
-# Calculating "AP (A)" percentage value
-ap_a_1_sum = df.iloc[:, ap_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-ap_a_05_sum = df.iloc[:, ap_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['AP (A)'] = (ap_a_1_sum + ap_a_05_sum) / (max_values_ap_a_1 + max_values_ap_a_05) * 100  # Percentage calculation
-
-# Calculating "AM (S)" percentage value
-am_s_1_sum = df.iloc[:, am_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-am_s_05_sum = df.iloc[:, am_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['AM (S)'] = (am_s_1_sum + am_s_05_sum) / (max_values_am_s_1 + max_values_am_s_05) * 100  # Percentage calculation
-
-# Calculating "AM (A)" percentage value
-am_a_1_sum = df.iloc[:, am_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-am_a_05_sum = df.iloc[:, am_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['AM (A)'] = (am_a_1_sum + am_a_05_sum) / (max_values_am_a_1 + max_values_am_a_05) * 100  # Percentage calculation
-
-# Calculating "SS (A)" percentage value
-ss_a_1_sum = df.iloc[:, ss_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-ss_a_05_sum = df.iloc[:, ss_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['SS (A)'] = (ss_a_1_sum + ss_a_05_sum) / (max_values_ss_a_1 + max_values_ss_a_05) * 100  # Percentage calculation
-
-# Calculating "TRE (A)" percentage value
-tre_a_1_sum = df.iloc[:, tre_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-tre_a_05_sum = df.iloc[:, tre_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['TRE (A)'] = (tre_a_1_sum + tre_a_05_sum) / (max_values_tre_a_1 + max_values_tre_a_05) * 100  # Percentage calculation
-
-# Calculating "ENG (S)" percentage value
-eng_s_1_sum = df.iloc[:, eng_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-eng_s_05_sum = df.iloc[:, eng_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['ENG (S)'] = (eng_s_1_sum + eng_s_05_sum) / (max_values_eng_s_1 + max_values_eng_s_05) * 100  # Percentage calculation
-
-# Calculating "IW (S)" percentage value
-iw_s_1_sum = df.iloc[:, iw_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-iw_s_05_sum = df.iloc[:, iw_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['IW (S)'] = (iw_s_1_sum + iw_s_05_sum) / (max_values_iw_s_1 + max_values_iw_s_05) * 100  # Percentage calculation
-
-# Calculating "IW (A)" percentage value
-iw_a_1_sum = df.iloc[:, iw_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-iw_a_05_sum = df.iloc[:, iw_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['IW (A)'] = (iw_a_1_sum + iw_a_05_sum) / (max_values_iw_a_1 + max_values_iw_a_05) * 100  # Percentage calculation
-
-# Calculating "WP (S)" percentage value
-wp_s_1_sum = df.iloc[:, wp_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-wp_s_05_sum = df.iloc[:, wp_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['WP (S)'] = (wp_s_1_sum + wp_s_05_sum) / (max_values_wp_s_1 + max_values_wp_s_05) * 100  # Percentage calculation
-
-# Calculating "WP (A)" percentage value
-wp_a_1_sum = df.iloc[:, wp_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-wp_a_05_sum = df.iloc[:, wp_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['WP (A)'] = (wp_a_1_sum + wp_a_05_sum) / (max_values_wp_a_1 + max_values_wp_a_05) * 100  # Percentage calculation
-
-# Calculating "WIN (S)" percentage value
-win_s_1_sum = df.iloc[:, win_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-win_s_05_sum = df.iloc[:, win_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['WIN (S)'] = (win_s_1_sum + win_s_05_sum) / (max_values_win_s_1 + max_values_win_s_05) * 100  # Percentage calculation
-
-# Calculating "WIN (A)" percentage value
-win_a_1_sum = df.iloc[:, win_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-win_a_05_sum = df.iloc[:, win_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['WIN (A)'] = (win_a_1_sum + win_a_05_sum) / (max_values_win_a_1 + max_values_win_a_05) * 100  # Percentage calculation
-
-# Calculating "DWIN (D)" percentage value
-dwin_d_1_sum = df.iloc[:, dwin_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-dwin_d_05_sum = df.iloc[:, dwin_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['DWIN (D)'] = (dwin_d_1_sum + dwin_d_05_sum) / (max_values_dwin_d_1 + max_values_dwin_d_05) * 100  # Percentage calculation
-
-# Calculating "DWIN (S)" percentage value
-dwin_s_1_sum = df.iloc[:, dwin_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-dwin_s_05_sum = df.iloc[:, dwin_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['DWIN (S)'] = (dwin_s_1_sum + dwin_s_05_sum) / (max_values_dwin_s_1 + max_values_dwin_s_05) * 100  # Percentage calculation
-
-# Calculating "WM (D)" percentage value
-wm_d_1_sum = df.iloc[:, wm_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-wm_d_05_sum = df.iloc[:, wm_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['WM (D)'] = (wm_d_1_sum + wm_d_05_sum) / (max_values_wm_d_1 + max_values_wm_d_05) * 100  # Percentage calculation
-
-# Calculating "WM (S)" percentage value
-wm_s_1_sum = df.iloc[:, wm_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-wm_s_05_sum = df.iloc[:, wm_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['WM (S)'] = (wm_s_1_sum + wm_s_05_sum) / (max_values_wm_s_1 + max_values_wm_s_05) * 100  # Percentage calculation
-
-# Calculating "WM (A)" percentage value
-wm_a_1_sum = df.iloc[:, wm_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-wm_a_05_sum = df.iloc[:, wm_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['WM (A)'] = (wm_a_1_sum + wm_a_05_sum) / (max_values_wm_a_1 + max_values_wm_a_05) * 100  # Percentage calculation
-
-# Calculating "IF (S)" percentage value
-if_s_1_sum = df.iloc[:, if_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-if_s_05_sum = df.iloc[:, if_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['IF (S)'] = (if_s_1_sum + if_s_05_sum) / (max_values_if_s_1 + max_values_if_s_05) * 100  # Percentage calculation
-
-# Calculating "IF (A)" percentage value
-if_a_1_sum = df.iloc[:, if_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-if_a_05_sum = df.iloc[:, if_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['IF (A)'] = (if_a_1_sum + if_a_05_sum) / (max_values_if_a_1 + max_values_if_a_05) * 100  # Percentage calculation
-
-# Calculating "RMD (A)" percentage value
-rmd_a_1_sum = df.iloc[:, rmd_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-rmd_a_05_sum = df.iloc[:, rmd_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['RMD (A)'] = (rmd_a_1_sum + rmd_a_05_sum) / (max_values_rmd_a_1 + max_values_rmd_a_05) * 100  # Percentage calculation
-
-# Calculating "WTM (S)" percentage value
-wtm_s_1_sum = df.iloc[:, wtm_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-wtm_s_05_sum = df.iloc[:, wtm_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['WTM (S)'] = (wtm_s_1_sum + wtm_s_05_sum) / (max_values_wtm_s_1 + max_values_wtm_s_05) * 100  # Percentage calculation
-
-# Calculating "WTM (A)" percentage value
-wtm_a_1_sum = df.iloc[:, wtm_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-wtm_a_05_sum = df.iloc[:, wtm_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['WTM (A)'] = (wtm_a_1_sum + wtm_a_05_sum) / (max_values_wtm_a_1 + max_values_wtm_a_05) * 100  # Percentage calculation
-
-# Calculating "PF (D)" percentage value
-pf_d_1_sum = df.iloc[:, pf_d_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-pf_d_05_sum = df.iloc[:, pf_d_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['PF (D)'] = (pf_d_1_sum + pf_d_05_sum) / (max_values_pf_d_1 + max_values_pf_d_05) * 100  # Percentage calculation
-
-# Calculating "PF (S)" percentage value
-pf_s_1_sum = df.iloc[:, pf_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-pf_s_05_sum = df.iloc[:, pf_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['PF (S)'] = (pf_s_1_sum + pf_s_05_sum) / (max_values_pf_s_1 + max_values_pf_s_05) * 100  # Percentage calculation
-
-# Calculating "PF (A)" percentage value
-pf_a_1_sum = df.iloc[:, pf_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-pf_a_05_sum = df.iloc[:, pf_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['PF (A)'] = (pf_a_1_sum + pf_a_05_sum) / (max_values_pf_a_1 + max_values_pf_a_05) * 100  # Percentage calculation
-
-# Calculating "DLF (S)" percentage value
-dlf_s_1_sum = df.iloc[:, dlf_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-dlf_s_05_sum = df.iloc[:, dlf_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['DLF (S)'] = (dlf_s_1_sum + dlf_s_05_sum) / (max_values_dlf_s_1 + max_values_dlf_s_05) * 100  # Percentage calculation
-
-# Calculating "DLF (A)" percentage value
-dlf_a_1_sum = df.iloc[:, dlf_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-dlf_a_05_sum = df.iloc[:, dlf_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['DLF (A)'] = (dlf_a_1_sum + dlf_a_05_sum) / (max_values_dlf_a_1 + max_values_dlf_a_05) * 100  # Percentage calculation
-
-# Calculating "TM (S)" percentage value
-tm_s_1_sum = df.iloc[:, tm_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-tm_s_05_sum = df.iloc[:, tm_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['TM (S)'] = (tm_s_1_sum + tm_s_05_sum) / (max_values_tm_s_1 + max_values_tm_s_05) * 100  # Percentage calculation
-
-# Calculating "TM (A)" percentage value
-tm_a_1_sum = df.iloc[:, tm_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-tm_a_05_sum = df.iloc[:, tm_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['TM (A)'] = (tm_a_1_sum + tm_a_05_sum) / (max_values_tm_a_1 + max_values_tm_a_05) * 100  # Percentage calculation
-
-# Calculating "AF (A)" percentage value
-af_a_1_sum = df.iloc[:, af_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-af_a_05_sum = df.iloc[:, af_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['AF (A)'] = (af_a_1_sum + af_a_05_sum) / (max_values_af_a_1 + max_values_af_a_05) * 100  # Percentage calculation
-
-# Calculating "POA (S)" percentage value
-poa_s_1_sum = df.iloc[:, poa_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-poa_s_05_sum = df.iloc[:, poa_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['POA (S)'] = (poa_s_1_sum + poa_s_05_sum) / (max_values_poa_s_1 + max_values_poa_s_05) * 100  # Percentage calculation
-
-# Calculating "F9 (S)" percentage value
-f9_s_1_sum = df.iloc[:, f9_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-f9_s_05_sum = df.iloc[:, f9_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['F9 (S)'] = (f9_s_1_sum + f9_s_05_sum) / (max_values_f9_s_1 + max_values_f9_s_05) * 100  # Percentage calculation
-
-# Calculating "CF (S)" percentage value
-cf_s_1_sum = df.iloc[:, cf_s_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-cf_s_05_sum = df.iloc[:, cf_s_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['CF (S)'] = (cf_s_1_sum + cf_s_05_sum) / (max_values_cf_s_1 + max_values_cf_s_05) * 100  # Percentage calculation
-
-# Calculating "CF (A)" percentage value
-cf_a_1_sum = df.iloc[:, cf_a_columns_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
-cf_a_05_sum = df.iloc[:, cf_a_columns_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-new_df['CF (A)'] = (cf_a_1_sum + cf_a_05_sum) / (max_values_cf_a_1 + max_values_cf_a_05) * 100  # Percentage calculation
+new_df['Goalkeeper (D)'] = None
+new_df['Goalkeeper-libero (D)'] = None
+new_df['Goalkeeper-libero (S)'] = None
+new_df['Goalkeeper-libero (A)'] = None
+new_df['Libero (D)'] = None
+new_df['Libero (S)'] = None
+new_df['TCD (D)'] = None
+new_df['TCD (S)'] = None
+new_df['TCD (C)'] = None
+new_df['CD (D)'] = None
+new_df['CD (S)'] = None
+new_df['CD (C)'] = None
+new_df['BPD (D)'] = None
+new_df['BPD (S)'] = None
+new_df['BPD (C)'] = None
+new_df['WCB (D)'] = None
+new_df['WCB (S)'] = None
+new_df['WCB (A)'] = None
+new_df['FB (D)'] = None
+new_df['FB (S)']  = None
+new_df['FB (A)'] = None
+new_df['WB (D)'] = None
+new_df['WB (S)'] = None
+new_df['WB (A)'] = None
+new_df['N_N FB']  = None
+new_df['CWB (S)'] = None
+new_df['CWB (A)']  = None
+new_df['IWB (D)'] = None
+new_df['IWB (S)'] = None
+new_df['IWB (A)']  = None
+new_df['IFB (D)']  = None
+new_df['BWM (D)'] = None
+new_df['BWM (S)']  = None
+new_df['AM (D)'] = None
+new_df['DM (D)'] = None
+new_df['DM (S)']  = None
+new_df['HB (D)'] = None
+new_df['DLP (D)'] = None
+new_df['DLP (S)'] = None
+new_df['SV (S)'] = None
+new_df['SV (A)'] = None
+new_df['RP (S)']  = None
+new_df['REG (S)'] = None
+new_df['CM (D)'] = None
+new_df['CM (S)']  = None
+new_df['CM (A)']  = None
+new_df['CAR (S)'] = None
+new_df['B2B (S)']  = None
+new_df['MEZ (S)'] = None
+new_df['MEZ (A)'] = None
+new_df['AP (S)'] = None
+new_df['AP (A)'] = None
+new_df['AM (S)'] = None
+new_df['AM (A)'] = None
+new_df['SS (A)']  = None
+new_df['TRE (A)'] = None
+new_df['ENG (S)']  = None
+new_df['IW (S)']  = None
+new_df['IW (A)']  = None
+new_df['WP (S)'] = None
+new_df['WP (A)'] = None
+new_df['WIN (S)'] = None
+new_df['WIN (A)'] = None
+new_df['DWIN (D)'] = None
+new_df['DWIN (S)']  = None
+new_df['WM (D)']  = None
+new_df['WM (S)']  = None
+new_df['WM (A)']  = None
+new_df['IF (S)'] = None
+new_df['IF (A)'] = None
+new_df['RMD (A)'] = None
+new_df['WTM (S)'] = None
+new_df['WTM (A)']  = None
+new_df['PF (D)'] = None
+new_df['PF (S)'] = None
+new_df['PF (A)']  = None
+new_df['DLF (S)']  = None
+new_df['DLF (A)']  = None
+new_df['TM (S)']  = None
+new_df['TM (A)']  = None
+new_df['AF (A)']  = None
+new_df['POA (S)'] = None
+new_df['F9 (S)']  = None
+new_df['CF (S)']  = None
+new_df['CF (A)'] = None
+
+for idx, row in df.iterrows():
+    if df.iloc[idx, cols_to_check].apply(is_integer).all():
+
+        calculations = {
+            'Goalkeeper (D)': (goalkeeper_d_columns_1, goalkeeper_d_columns_05, max_values_goalkeeper_d_1, max_values_goalkeeper_d_05),
+            'Goalkeeper-libero (D)': (goalkeeper_libero_d_columns_1, goalkeeper_libero_d_columns_05, max_values_goalkeeper_libero_d_1, max_values_goalkeeper_libero_d_05),
+            'Goalkeeper-libero (S)': (goalkeeper_libero_s_columns_1, goalkeeper_libero_s_columns_05, max_values_goalkeeper_libero_s_1, max_values_goalkeeper_libero_s_05),
+            'Goalkeeper-libero (A)': (goalkeeper_libero_a_columns_1, goalkeeper_libero_a_columns_05, max_values_goalkeeper_libero_a_1, max_values_goalkeeper_libero_a_05),
+            'Libero (D)': (libero_d_columns_1, libero_d_columns_05, max_values_libero_d_1, max_values_libero_d_05),
+            'Libero (S)': (libero_s_columns_1, libero_s_columns_05, max_values_libero_s_1, max_values_libero_s_05),
+            'TCD (D)': (tcd_d_columns_1, tcd_d_columns_05, max_values_tcd_d_1, max_values_tcd_d_05),
+            'TCD (S)': (tcd_s_columns_1, tcd_s_columns_05, max_values_tcd_s_1, max_values_tcd_s_05),
+            'TCD (C)': (tcd_c_columns_1, tcd_c_columns_05, max_values_tcd_c_1, max_values_tcd_c_05),
+            'CD (D)': (cd_d_columns_1, cd_d_columns_05, max_values_cd_d_1, max_values_cd_d_05),
+            'CD (S)': (cd_s_columns_1, cd_s_columns_05, max_values_cd_s_1, max_values_cd_s_05),
+            'CD (C)': (cd_c_columns_1, cd_c_columns_05, max_values_cd_c_1, max_values_cd_c_05),
+            'BPD (D)': (bpd_d_columns_1, bpd_d_columns_05, max_values_bpd_d_1, max_values_bpd_d_05),
+            'BPD (S)': (bpd_s_columns_1, bpd_s_columns_05, max_values_bpd_s_1, max_values_bpd_s_05),
+            'BPD (C)': (bpd_c_columns_1, bpd_c_columns_05, max_values_bpd_c_1, max_values_bpd_c_05),
+            'WCB (D)': (wcb_d_columns_1, wcb_d_columns_05, max_values_wcb_d_1, max_values_wcb_d_05),
+            'WCB (S)': (wcb_s_columns_1, wcb_s_columns_05, max_values_wcb_s_1, max_values_wcb_s_05),
+            'WCB (A)': (wcb_a_columns_1, wcb_a_columns_05, max_values_wcb_a_1, max_values_wcb_a_05),
+            'FB (D)': (fb_d_columns_1, fb_d_columns_05, max_values_fb_d_1, max_values_fb_d_05),
+            'FB (S)': (fb_s_columns_1, fb_s_columns_05, max_values_fb_s_1, max_values_fb_s_05),
+            'FB (A)': (fb_a_columns_1, fb_a_columns_05, max_values_fb_a_1, max_values_fb_a_05),
+            'WB (D)': (wb_d_columns_1, wb_d_columns_05, max_values_wb_d_1, max_values_wb_d_05),
+            'WB (S)': (wb_s_columns_1, wb_s_columns_05, max_values_wb_s_1, max_values_wb_s_05),
+            'WB (A)': (wb_a_columns_1, wb_a_columns_05, max_values_wb_a_1, max_values_wb_a_05),
+            'N_N FB': (n_n_fb_columns_1, n_n_fb_columns_05, max_values_n_n_fb_1, max_values_n_n_fb_05),
+            'CWB (S)': (cwb_s_columns_1, cwb_s_columns_05, max_values_cwb_s_1, max_values_cwb_s_05),
+            'CWB (A)': (cwb_a_columns_1, cwb_a_columns_05, max_values_cwb_a_1, max_values_cwb_a_05),
+            'IWB (D)': (iwb_d_columns_1, iwb_d_columns_05, max_values_iwb_d_1, max_values_iwb_d_05),
+            'IWB (S)': (iwb_s_columns_1, iwb_s_columns_05, max_values_iwb_s_1, max_values_iwb_s_05),
+            'IWB (A)': (iwb_a_columns_1, iwb_a_columns_05, max_values_iwb_a_1, max_values_iwb_a_05),
+            'IFB (D)': (ifb_d_columns_1, ifb_d_columns_05, max_values_ifb_d_1, max_values_ifb_d_05),
+            'BWM (D)': (bwm_d_columns_1, bwm_d_columns_05, max_values_bwm_d_1, max_values_bwm_d_05),
+            'BWM (S)': (bwm_s_columns_1, bwm_s_columns_05, max_values_bwm_s_1, max_values_bwm_s_05),
+            'AM (D)': (am_d_columns_1, am_d_columns_05, max_values_am_d_1, max_values_am_d_05),
+            'DM (D)': (dm_d_columns_1, dm_d_columns_05, max_values_dm_d_1, max_values_dm_d_05),
+            'DM (S)': (dm_s_columns_1, dm_s_columns_05, max_values_dm_s_1, max_values_dm_s_05),
+            'HB (D)': (hb_d_columns_1, hb_d_columns_05, max_values_hb_d_1, max_values_hb_d_05),
+            'DLP (D)': (dlp_d_columns_1, dlp_d_columns_05, max_values_dlp_d_1, max_values_dlp_d_05),
+            'DLP (S)': (dlp_s_columns_1, dlp_s_columns_05, max_values_dlp_s_1, max_values_dlp_s_05),
+            'SV (S)': (sv_s_columns_1, sv_s_columns_05, max_values_sv_s_1, max_values_sv_s_05),
+            'SV (A)': (sv_a_columns_1, sv_a_columns_05, max_values_sv_a_1, max_values_sv_a_05),
+            'RP (S)': (rp_s_columns_1, rp_s_columns_05, max_values_rp_s_1, max_values_rp_s_05),
+            'CM (D)': (cm_d_columns_1, cm_d_columns_05, max_values_cm_d_1, max_values_cm_d_05),
+            'CM (S)': (cm_s_columns_1, cm_s_columns_05, max_values_cm_s_1, max_values_cm_s_05),
+            'CM (A)': (cm_a_columns_1, cm_a_columns_05, max_values_cm_a_1, max_values_cm_a_05),
+            'CAR (S)': (car_s_columns_1, car_s_columns_05, max_values_car_s_1, max_values_car_s_05),
+            'B2B (S)': (b2b_s_columns_1, b2b_s_columns_05, max_values_b2b_s_1, max_values_b2b_s_05),
+            'MEZ (S)': (mez_s_columns_1, mez_s_columns_05, max_values_mez_s_1, max_values_mez_s_05),
+            'MEZ (A)': (mez_a_columns_1, mez_a_columns_05, max_values_mez_a_1, max_values_mez_a_05),
+            'AP (S)': (ap_s_columns_1, ap_s_columns_05, max_values_ap_s_1, max_values_ap_s_05),
+            'AP (A)': (ap_a_columns_1, ap_a_columns_05, max_values_ap_a_1, max_values_ap_a_05),
+            'AM (S)': (am_s_columns_1, am_s_columns_05, max_values_am_s_1, max_values_am_s_05),
+            'AM (A)': (am_a_columns_1, am_a_columns_05, max_values_am_a_1, max_values_am_a_05),
+            'SS (A)': (ss_a_columns_1, ss_a_columns_05, max_values_ss_a_1, max_values_ss_a_05),
+            'TRE (A)': (tre_a_columns_1, tre_a_columns_05, max_values_tre_a_1, max_values_tre_a_05),
+            'ENG (S)': (eng_s_columns_1, eng_s_columns_05, max_values_eng_s_1, max_values_eng_s_05),
+            'IW (S)': (iw_s_columns_1, iw_s_columns_05, max_values_iw_s_1, max_values_iw_s_05),
+            'IW (A)': (iw_a_columns_1, iw_a_columns_05, max_values_iw_a_1, max_values_iw_a_05),
+            'WP (S)': (wp_s_columns_1, wp_s_columns_05, max_values_wp_s_1, max_values_wp_s_05),
+            'WP (A)': (wp_a_columns_1, wp_a_columns_05, max_values_wp_a_1, max_values_wp_a_05),
+            'WIN (S)': (win_s_columns_1, win_s_columns_05, max_values_win_s_1, max_values_win_s_05),
+            'WIN (A)': (win_a_columns_1, win_a_columns_05, max_values_win_a_1, max_values_win_a_05),
+            'DWIN (D)': (dwin_d_columns_1, dwin_d_columns_05, max_values_dwin_d_1, max_values_dwin_d_05),
+            'DWIN (S)': (dwin_s_columns_1, dwin_s_columns_05, max_values_dwin_s_1, max_values_dwin_s_05),
+            'WM (D)': (wm_d_columns_1, wm_d_columns_05, max_values_wm_d_1, max_values_wm_d_05),
+            'WM (S)': (wm_s_columns_1, wm_s_columns_05, max_values_wm_s_1, max_values_wm_s_05),
+            'WM (A)': (wm_a_columns_1, wm_a_columns_05, max_values_wm_a_1, max_values_wm_a_05),
+            'IF (S)': (if_s_columns_1, if_s_columns_05, max_values_if_s_1, max_values_if_s_05),
+            'IF (A)': (if_a_columns_1, if_a_columns_05, max_values_if_a_1, max_values_if_a_05),
+            'RMD (A)': (rmd_a_columns_1, rmd_a_columns_05, max_values_rmd_a_1, max_values_rmd_a_05),
+            'WTM (S)': (wtm_s_columns_1, wtm_s_columns_05, max_values_wtm_s_1, max_values_wtm_s_05),
+            'WTM (A)': (wtm_a_columns_1, wtm_a_columns_05, max_values_wtm_a_1, max_values_wtm_a_05),
+            'PF (D)': (pf_d_columns_1, pf_d_columns_05, max_values_pf_d_1, max_values_pf_d_05),
+            'PF (S)': (pf_s_columns_1, pf_s_columns_05, max_values_pf_s_1, max_values_pf_s_05),
+            'PF (A)': (pf_a_columns_1, pf_a_columns_05, max_values_pf_a_1, max_values_pf_a_05),
+            'DLF (S)': (dlf_s_columns_1, dlf_s_columns_05, max_values_dlf_s_1, max_values_dlf_s_05),
+            'DLF (A)': (dlf_a_columns_1, dlf_a_columns_05, max_values_dlf_a_1, max_values_dlf_a_05),
+            'TM (S)': (tm_s_columns_1, tm_s_columns_05, max_values_tm_s_1, max_values_tm_s_05),
+            'TM (A)': (tm_a_columns_1, tm_a_columns_05, max_values_tm_a_1, max_values_tm_a_05),
+            'AF (A)': (af_a_columns_1, af_a_columns_05, max_values_af_a_1, max_values_af_a_05),
+            'POA (S)': (poa_s_columns_1, poa_s_columns_05, max_values_poa_s_1, max_values_poa_s_05),
+            'F9 (S)': (f9_s_columns_1, f9_s_columns_05, max_values_f9_s_1, max_values_f9_s_05),
+            'CF (S)': (cf_s_columns_1, cf_s_columns_05, max_values_cf_s_1, max_values_cf_s_05),
+            'CF (A)': (cf_a_columns_1, cf_a_columns_05, max_values_cf_a_1, max_values_cf_a_05),
+        }
+
+        # Calculate percentages for all keys in calculations dictionary
+        for key, (cols_1, cols_05, max_values_1, max_values_05) in calculations.items():
+            new_df.at[idx, key] = calculate_percentage(row, cols_1, cols_05, max_values_1, max_values_05)
 
 # Printing new DataFrame with calculations.
 #print(new_df)
 
 # GUI to select save location
-## To consider changing PySimpleGUI to open source GUI as it's licensed now.
+## To consider changing PySimpleGUI to other open source GUI as it's licensed now.
 
 save_window = [
     [sg.Text("Please select a location to save the file:")],
