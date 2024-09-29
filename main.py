@@ -565,7 +565,7 @@ calculate_percentage(df, new_df, cf_s_columns_1, cf_s_columns_05, max_values_cf_
 calculate_percentage(df, new_df, cf_a_columns_1, cf_a_columns_05, max_values_cf_a_1, max_values_cf_a_05, 'CF (A)')
 
 # Printing new DataFrame with calculations.
-#print(new_df)
+print(new_df)
 
 # GUI to select save location
 ## To consider changing PySimpleGUI to other open source GUI as it's licensed now.
