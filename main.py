@@ -38,7 +38,15 @@ def check_integer(x):
     except ValueError:
         return False
 
+# Removing non-integer lines
 df = df.loc[df.iloc[:, 2:48].apply(check_integer, axis=1).fillna(False)]
+
+# Converting columns to integers
+df.iloc[:, 2:49] = df.iloc[:, 2:49].apply(pd.to_numeric, errors='coerce').astype('Int64')
+
+
+# Function to calculate positon percentage
+
 
 def calculate_percentage(df, new_df, column_1, column_05, max_value_1, max_value_05, new_col_name):
     tier_1_sum = df.iloc[:, column_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
@@ -47,6 +55,7 @@ def calculate_percentage(df, new_df, column_1, column_05, max_value_1, max_value
 
 
 # Function to calculate maximum column values (20 as maximum skill)
+
 def calculate_max_values(column_list_1, column_list_05):
     max_values_1 = 20 * len(column_list_1) # Tier 1 (Multiplier 1.0)
     max_values_05 = 20 * 0.5 * len(column_list_05) # Tier 6 (Multiplier 0.5)
@@ -321,7 +330,7 @@ cf_a_columns_1 = [9, 11, 12, 19, 24, 25, 26, 33, 38, 48]
 cf_a_columns_05  = [5, 21, 22, 23, 29, 34, 36, 37, 41, 46]
 
 
-# Calculating maximum possible value for each column using function
+# Calculating maximum possible value for each column using function Calculate Max Values function
 
 # # Goalkeepers
 
@@ -466,6 +475,9 @@ max_values_cf_a_1, max_values_cf_a_05 = calculate_max_values(cf_a_columns_1, cf_
 
 # Copying first two columns to new DataFrame
 new_df = df.iloc[: , [0, 1]].copy() 
+
+
+# Using Calculate Percentage function to calculate position percentage
 
 calculate_percentage(df, new_df, goalkeeper_d_columns_1, goalkeeper_d_columns_05, max_values_goalkeeper_d_1, max_values_goalkeeper_d_05, 'Goalkeeper (D)')
 calculate_percentage(df, new_df, goalkeeper_libero_d_columns_1, goalkeeper_libero_d_columns_05, max_values_goalkeeper_libero_d_1, max_values_goalkeeper_libero_d_05, 'Goalkeeper-libero (D)')
