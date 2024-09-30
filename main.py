@@ -51,7 +51,12 @@ df.iloc[:, 2:49] = df.iloc[:, 2:49].apply(pd.to_numeric, errors='coerce').astype
 def calculate_percentage(df, new_df, column_1, column_05, max_value_1, max_value_05, new_col_name):
     tier_1_sum = df.iloc[:, column_1].sum(axis=1)  # Tier 1 (Multiplier 1.0)
     tier_05_sum = df.iloc[:, column_05].sum(axis=1) * 0.5  # Tier 6 (Multiplier 0.5)
-    new_df[new_col_name] = (tier_1_sum + tier_05_sum) / (max_value_1 + max_value_05) * 100  # Percentage calculation
+    
+    # Calculating  percentage
+    percentage = (tier_1_sum + tier_05_sum) / (max_value_1 + max_value_05) * 100
+    
+    # Rounding to two decimals, formatting with '%' sign
+    new_df[new_col_name] = percentage.apply(lambda x: f"{round(x, 2)}%")
 
 
 # Function to calculate maximum column values (20 as maximum skill)
