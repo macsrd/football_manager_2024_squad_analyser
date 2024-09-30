@@ -11,6 +11,6 @@ A script which will help you to assess which positons are best for your players.
 
 ## Requirements
 
-Football Manager 2024
-Python: https://www.python.org/downloads/
-Pandas and PySimpleGUI libraries
+1. Football Manager 2024
+2. Python: https://www.python.org/downloads/
+3. Pandas and PySimpleGUI libraries
